@@ -40,7 +40,7 @@ class HomeFragment : Fragment() {
 
     private fun handleUIStatus(uiStatus: UIStatus<Any>) {
         when (uiStatus) {
-            is UIStatus.Successful -> Timber.e("POKEMON - Artworks: ", uiStatus.value)
+            is UIStatus.Successful -> Timber.e("POKEMON - Artworks: " + uiStatus.value)
             else -> Timber.d("Unexpected status")
         }
     }

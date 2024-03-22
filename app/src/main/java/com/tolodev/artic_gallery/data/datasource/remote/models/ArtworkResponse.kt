@@ -1,7 +1,7 @@
 package com.tolodev.artic_gallery.data.datasource.remote.models
-import com.squareup.moshi.JsonClass
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
 
 @JsonClass(generateAdapter = true)
@@ -69,17 +69,17 @@ data class Data(
     @Json(name = "category_titles")
     val categoryTitles: List<String>,
     @Json(name = "classification_id")
-    val classificationId: String,
+    val classificationId: String?,
     @Json(name = "classification_ids")
     val classificationIds: List<String>,
     @Json(name = "classification_title")
-    val classificationTitle: String,
+    val classificationTitle: String?,
     @Json(name = "classification_titles")
     val classificationTitles: List<String>,
     @Json(name = "color")
     val color: Color?,
     @Json(name = "colorfulness")
-    val colorfulness: Double,
+    val colorfulness: Double?,
     @Json(name = "copyright_notice")
     val copyrightNotice: String?,
     @Json(name = "credit_line")
@@ -101,7 +101,7 @@ data class Data(
     @Json(name = "description")
     val description: String?,
     @Json(name = "dimensions")
-    val dimensions: String,
+    val dimensions: String?,
     @Json(name = "dimensions_detail")
     val dimensionsDetail: List<DimensionsDetail>,
     @Json(name = "document_ids")
@@ -127,9 +127,9 @@ data class Data(
     @Json(name = "has_not_been_viewed_much")
     val hasNotBeenViewedMuch: Boolean,
     @Json(name = "id")
-    val id: Int,
+    val id: Long,
     @Json(name = "image_id")
-    val imageId: String,
+    val imageId: String?,
     @Json(name = "inscriptions")
     val inscriptions: String?,
     @Json(name = "internal_department_id")
@@ -165,7 +165,7 @@ data class Data(
     @Json(name = "on_loan_display")
     val onLoanDisplay: Any?,
     @Json(name = "place_of_origin")
-    val placeOfOrigin: String,
+    val placeOfOrigin: String?,
     @Json(name = "provenance_text")
     val provenanceText: String?,
     @Json(name = "publication_history")
@@ -215,7 +215,7 @@ data class Data(
     @Json(name = "theme_titles")
     val themeTitles: List<String>,
     @Json(name = "thumbnail")
-    val thumbnail: Thumbnail,
+    val thumbnail: Thumbnail?,
     @Json(name = "timestamp")
     val timestamp: String,
     @Json(name = "title")
