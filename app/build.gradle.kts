@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.jetbrainsKotlinKapt)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.navigationSafeArgs)
 }
 
 android {
@@ -65,6 +67,7 @@ dependencies {
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.appcompat)
+    implementation(libs.fragment.ktx)
 
     //Dagger - Hilt
     implementation(libs.hilt.android)
@@ -81,6 +84,9 @@ dependencies {
     //Moshi
     implementation(libs.moshi)
     kapt(libs.moshi.kotlin.codegen)
+
+    // Timber
+    implementation(libs.timber.logger)
 
 
     testImplementation(libs.junit)

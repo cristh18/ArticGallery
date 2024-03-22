@@ -15,4 +15,4 @@ annotation class ArticGalleryHttpClientBuilder
 annotation class ArticGalleryInterceptors
 
 @Qualifier
-annotation class ArticGalleryServices
+annotation class ArticGalleryApis

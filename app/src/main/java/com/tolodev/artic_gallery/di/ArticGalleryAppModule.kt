@@ -2,6 +2,9 @@ package com.tolodev.artic_gallery.di
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import com.tolodev.artic_gallery.data.datasource.remote.IRemoteDatasource
+import com.tolodev.artic_gallery.data.datasource.remote.RemoteDatasource
+import com.tolodev.artic_gallery.data.datasource.remote.api.ArticGalleryApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,6 +17,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
+
 //import com.tolodev.artic_gallery.BuildConfig
 
 @Module
@@ -25,12 +29,12 @@ object ArticGalleryAppModule {
     @Provides
     @ArticGalleryBaseUrl
     fun getBaseUrl(): String {
-        return "https://api.artic.edu/api/v1"
+        return "https://api.artic.edu/"
     }
 
     @Provides
     @Singleton
-    @ArticGalleryServices
+    @ArticGalleryApis
     fun retrofitAuthenticator(
         @ArticGalleryHttpClientBuilder
         builder: OkHttpClient.Builder,
@@ -79,7 +83,7 @@ object ArticGalleryAppModule {
             .build()
     }
 
-//    @Provides
+    //    @Provides
 //    @Singleton
 //    fun provideShortLinkDatabase(@ApplicationContext appContext: Context): ShortLinkDatabase =
 //        Room.databaseBuilder(
@@ -87,15 +91,15 @@ object ArticGalleryAppModule {
 //            ShortLinkDatabase::class.java, "shortly-app-db"
 //        ).build()
 //
-//    @Provides
-//    @Singleton
-//    fun provideShortLinkService(@ShortlyServices retrofit: Retrofit): ShortCodeService =
-//        retrofit.create(ShortCodeService::class.java)
-//
-//    @Provides
-//    @Singleton
-//    fun provideShorteningLinkRemoteDataSource(shortCodeService: ShortCodeService): RemoteDataSource =
-//        ShortLinkServerDataSource(shortCodeService)
+    @Provides
+    @Singleton
+    fun provideArticGalleryApi(@ArticGalleryApis retrofit: Retrofit): ArticGalleryApi =
+        retrofit.create(ArticGalleryApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideArticGalleryRemoteDataSource(articGalleryApi: ArticGalleryApi): IRemoteDatasource =
+        RemoteDatasource(articGalleryApi)
 //
 //    @Provides
 //    @Singleton
