@@ -52,11 +52,5 @@ class HomeViewModel @Inject constructor(private val getArtworksUseCase: GetArtwo
         uiStatus.value = UIStatus.Error(errorMessage, throwable)
     }
 
-//    private fun updateState(state: ModelUiRescueFlow) {
-//        viewModelScope.launch {
-//            _initState.emit(state)
-//        }
-//    }
-
     fun uiStatusObserver(): LiveData<UIStatus<List<Artwork>>> = uiStatus
 }

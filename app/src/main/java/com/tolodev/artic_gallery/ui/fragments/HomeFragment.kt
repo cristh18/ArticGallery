@@ -13,7 +13,6 @@ import com.tolodev.artic_gallery.ui.components.home.HomeComponent
 import com.tolodev.artic_gallery.ui.models.UIStatus
 import com.tolodev.artic_gallery.ui.viewModels.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -42,13 +41,6 @@ class HomeFragment : Fragment() {
 
     private fun subscribe() {
         viewModel.uiStatusObserver().observe(viewLifecycleOwner, ::setupView)
-    }
-
-    private fun handleUIStatus(uiStatus: UIStatus<Any>) {
-        when (uiStatus) {
-            is UIStatus.Successful -> Timber.e("POKEMON - Artworks: " + uiStatus.value)
-            else -> Timber.d("Unexpected status")
-        }
     }
 
     private fun setupView(uiStatus: UIStatus<List<Artwork>>) {
