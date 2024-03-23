@@ -25,10 +25,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 import com.tolodev.artic_gallery.domain.models.Artwork
 import com.tolodev.artic_gallery.domain.models.DataProviderMock.getMockedArtworks
 import com.tolodev.artic_gallery.domain.models.ImageSize
+import com.tolodev.artic_gallery.ui.components.general.DisplayImageWithCustomLoadingIndicator
 import com.tolodev.artic_gallery.ui.models.UIStatus
 import com.tolodev.artic_gallery.ui.theme.ArticGalleryTheme
 import timber.log.Timber
@@ -90,12 +90,12 @@ fun ArtworkListItem(artwork: Artwork) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            AsyncImage(
+            DisplayImageWithCustomLoadingIndicator(
                 modifier = Modifier
                     .size(200.dp)
                     .fillMaxWidth(),
-                model = artwork.getImages()[ImageSize.TINY]?.imageUrl,
-                contentDescription = artwork.thumbnailAltText,
+                url = artwork.getImages()[ImageSize.TINY]?.imageUrl.orEmpty(),
+                contentDescription = artwork.thumbnailAltText
             )
             Text(
                 text = artwork.title,
@@ -119,7 +119,7 @@ fun ArticGalleryLoader() {
 
 @Preview(showBackground = true)
 @Composable
-fun MyAppPreview() {
+fun HomeComponentPreview() {
     ArticGalleryTheme {
         ArticGalleryLoader()
         HomeComponent(UIStatus.Successful(value = getMockedArtworks))

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/artic_gallery_nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.tolodev.artic_gallery.ui.fragments.HomeFragment"
+        android:label="HomeFragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_artworkDetailFragment"
+            app:destination="@id/artworkDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/artworkDetailFragment"
+        android:name="com.tolodev.artic_gallery.ui.fragments.ArtworkDetailFragment"
+        android:label="ArtworkDetailFragment" />
+</navigation>

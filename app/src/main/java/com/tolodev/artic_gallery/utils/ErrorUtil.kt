@@ -1,8 +1,12 @@
 package com.tolodev.artic_gallery.utils
 
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.ResponseBody
 import okio.Buffer
 import okio.BufferedSource
+import retrofit2.HttpException
 import java.nio.charset.Charset
 
 fun getHttpErrorMessage(throwable: Throwable): String {
