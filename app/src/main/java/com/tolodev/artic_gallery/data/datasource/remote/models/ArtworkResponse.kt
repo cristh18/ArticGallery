@@ -47,7 +47,7 @@ data class Data(
     @Json(name = "api_model")
     val apiModel: String,
     @Json(name = "artist_display")
-    val artistDisplay: String,
+    val artistDisplay: String?,
     @Json(name = "artist_id")
     val artistId: Int?,
     @Json(name = "artist_ids")
