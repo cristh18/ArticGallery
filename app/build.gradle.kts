@@ -1,9 +1,9 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
-    alias(libs.plugins.jetbrainsKotlinKapt)
     alias(libs.plugins.hilt)
     alias(libs.plugins.navigationSafeArgs)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -71,7 +71,7 @@ dependencies {
 
     //Dagger - Hilt
     implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
+    ksp(libs.hilt.android.compiler)
 
     //Retrofit
     implementation(libs.retrofit2)
@@ -83,13 +83,16 @@ dependencies {
 
     //Moshi
     implementation(libs.moshi)
-    kapt(libs.moshi.kotlin.codegen)
+    ksp(libs.moshi.kotlin.codegen)
 
     // Timber
     implementation(libs.timber.logger)
 
     // Coil
     implementation(libs.coil.compose)
+
+    // Navigation
+    implementation(libs.bundles.navigation.ui)
 
 
     testImplementation(libs.junit)
