@@ -159,7 +159,7 @@ data class Data(
     @Json(name = "max_zoom_window_size")
     val maxZoomWindowSize: Int,
     @Json(name = "medium_display")
-    val mediumDisplay: String,
+    val mediumDisplay: String?,
     @Json(name = "nomisma_id")
     val nomismaId: Any?,
     @Json(name = "on_loan_display")

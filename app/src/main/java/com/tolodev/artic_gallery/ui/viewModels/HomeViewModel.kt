@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.tolodev.artic_gallery.domain.models.Artwork
 import com.tolodev.artic_gallery.domain.useCases.GetArtworksUseCase
 import com.tolodev.artic_gallery.ui.models.UIStatus
 import com.tolodev.artic_gallery.utils.getHttpErrorMessage
@@ -23,7 +24,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(private val getArtworksUseCase: GetArtworksUseCase) :
     ViewModel() {
 
-    private val uiStatus = MutableLiveData<UIStatus<Any>>()
+    private val uiStatus = MutableLiveData<UIStatus<List<Artwork>>>()
 
     fun initViewModel() {
         getArtworks()
@@ -37,7 +38,7 @@ class HomeViewModel @Inject constructor(private val getArtworksUseCase: GetArtwo
         }
     }
 
-    private fun getArtworksFlow(): Flow<Any> {
+    private fun getArtworksFlow(): Flow<List<Artwork>> {
         return flow {
             emit(getArtworksUseCase.invoke())
         }.onStart { uiStatus.postValue(UIStatus.Loading(true)) }
@@ -51,5 +52,11 @@ class HomeViewModel @Inject constructor(private val getArtworksUseCase: GetArtwo
         uiStatus.value = UIStatus.Error(errorMessage, throwable)
     }
 
-    fun uiStatusObserver(): LiveData<UIStatus<Any>> = uiStatus
+//    private fun updateState(state: ModelUiRescueFlow) {
+//        viewModelScope.launch {
+//            _initState.emit(state)
+//        }
+//    }
+
+    fun uiStatusObserver(): LiveData<UIStatus<List<Artwork>>> = uiStatus
 }

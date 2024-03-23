@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.runtime.mutableStateListOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.tolodev.artic_gallery.domain.models.Artwork
 import com.tolodev.artic_gallery.extensions.composeView
 import com.tolodev.artic_gallery.ui.components.home.HomeComponent
 import com.tolodev.artic_gallery.ui.models.UIStatus
@@ -16,6 +18,8 @@ import timber.log.Timber
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 
+    private var modelDataView = mutableStateListOf<UIStatus<List<Artwork>>>()
+
     private val viewModel by viewModels<HomeViewModel>()
 
     override fun onCreateView(
@@ -24,7 +28,9 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         return composeView {
-            HomeComponent()
+            modelDataView.forEach { model ->
+                HomeComponent(model)
+            }
         }
     }
 
@@ -35,7 +41,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun subscribe() {
-        viewModel.uiStatusObserver().observe(viewLifecycleOwner, ::handleUIStatus)
+        viewModel.uiStatusObserver().observe(viewLifecycleOwner, ::setupView)
     }
 
     private fun handleUIStatus(uiStatus: UIStatus<Any>) {
@@ -43,6 +49,11 @@ class HomeFragment : Fragment() {
             is UIStatus.Successful -> Timber.e("POKEMON - Artworks: " + uiStatus.value)
             else -> Timber.d("Unexpected status")
         }
+    }
+
+    private fun setupView(uiStatus: UIStatus<List<Artwork>>) {
+        modelDataView.clear()
+        modelDataView.addAll(listOf(uiStatus))
     }
 }
 
