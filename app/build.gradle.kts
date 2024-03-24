@@ -94,6 +94,10 @@ dependencies {
     // Navigation
     implementation(libs.bundles.navigation.ui)
 
+    // Room
+    implementation(libs.bundles.room)
+    annotationProcessor(libs.room.compiler)
+    ksp(libs.room.compiler)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

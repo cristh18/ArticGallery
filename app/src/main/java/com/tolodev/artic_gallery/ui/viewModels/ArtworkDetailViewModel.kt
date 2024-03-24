@@ -4,17 +4,23 @@ import androidx.annotation.CheckResult
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.tolodev.artic_gallery.domain.useCases.SaveArtworkUseCase
 import com.tolodev.artic_gallery.managers.ArticGalleryManager
 import com.tolodev.artic_gallery.ui.mappers.toUIArtwork
 import com.tolodev.artic_gallery.ui.models.UIArtwork
 import com.tolodev.artic_gallery.ui.models.UIStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 private const val KEY_ARTWORK_ID = "key_artwork_id"
 
 @HiltViewModel
-class ArtworkDetailViewModel @Inject constructor(private val articGalleryManager: ArticGalleryManager) :
+class ArtworkDetailViewModel @Inject constructor(
+    private val articGalleryManager: ArticGalleryManager,
+    private val saveArtworkUseCase: SaveArtworkUseCase
+) :
     ViewModel() {
 
     private val uiStatus = MutableLiveData<UIStatus<UIArtwork>>()
@@ -26,6 +32,14 @@ class ArtworkDetailViewModel @Inject constructor(private val articGalleryManager
             articGalleryManager.getCurrentArtwork(artworkId)?.let {
                 val uiArtwork = it.toUIArtwork()
                 uiStatus.value = UIStatus.Successful(uiArtwork)
+            }
+        }
+    }
+
+    fun saveFavoriteArtwork(artworkId: Long) {
+        viewModelScope.launch {
+            articGalleryManager.getCurrentArtwork(artworkId)?.let {
+                saveArtworkUseCase.invoke(it)
             }
         }
     }

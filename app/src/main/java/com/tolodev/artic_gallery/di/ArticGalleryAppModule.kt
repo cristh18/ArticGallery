@@ -1,7 +1,12 @@
 package com.tolodev.artic_gallery.di
 
+import android.content.Context
+import androidx.room.Room
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import com.tolodev.artic_gallery.data.datasource.local.ILocalDataSource
+import com.tolodev.artic_gallery.data.datasource.local.LocalDataSource
+import com.tolodev.artic_gallery.data.datasource.local.database.ArticGalleryDatabase
 import com.tolodev.artic_gallery.data.datasource.remote.IRemoteDatasource
 import com.tolodev.artic_gallery.data.datasource.remote.RemoteDatasource
 import com.tolodev.artic_gallery.data.datasource.remote.api.ArticGalleryApi
@@ -9,6 +14,7 @@ import com.tolodev.artic_gallery.managers.ArticGalleryManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Headers
 import okhttp3.Interceptor
@@ -84,14 +90,14 @@ object ArticGalleryAppModule {
             .build()
     }
 
-    //    @Provides
-//    @Singleton
-//    fun provideShortLinkDatabase(@ApplicationContext appContext: Context): ShortLinkDatabase =
-//        Room.databaseBuilder(
-//            appContext,
-//            ShortLinkDatabase::class.java, "shortly-app-db"
-//        ).build()
-//
+    @Provides
+    @Singleton
+    fun provideArticGalleryDatabase(@ApplicationContext appContext: Context): ArticGalleryDatabase =
+        Room.databaseBuilder(
+            appContext,
+            ArticGalleryDatabase::class.java, "artic-gallery-db"
+        ).build()
+
     @Provides
     @Singleton
     fun provideArticGalleryApi(@ArticGalleryApis retrofit: Retrofit): ArticGalleryApi =
@@ -101,11 +107,11 @@ object ArticGalleryAppModule {
     @Singleton
     fun provideArticGalleryRemoteDataSource(articGalleryApi: ArticGalleryApi): IRemoteDatasource =
         RemoteDatasource(articGalleryApi)
-//
-//    @Provides
-//    @Singleton
-//    fun provideShorteningLinkLocalDataSource(shortLinkDatabase: ShortLinkDatabase): LocalDataSource =
-//        ShortLinkDBDataSource(shortLinkDatabase)
+
+    @Provides
+    @Singleton
+    fun provideArticGalleryLocalDataSource(articGalleryDatabase: ArticGalleryDatabase): ILocalDataSource =
+        LocalDataSource(articGalleryDatabase)
 
     @Provides
     @Singleton
