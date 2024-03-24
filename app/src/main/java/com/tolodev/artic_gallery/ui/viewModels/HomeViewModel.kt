@@ -1,5 +1,6 @@
 package com.tolodev.artic_gallery.ui.viewModels
 
+import androidx.annotation.CheckResult
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -61,5 +62,6 @@ class HomeViewModel @Inject constructor(
         uiStatus.value = UIStatus.Error(errorMessage, throwable)
     }
 
+    @CheckResult
     fun uiStatusObserver(): LiveData<UIStatus<List<UIArtwork>>> = uiStatus
 }

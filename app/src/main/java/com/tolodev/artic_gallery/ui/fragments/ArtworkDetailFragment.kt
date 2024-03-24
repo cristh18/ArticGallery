@@ -36,6 +36,8 @@ import com.tolodev.artic_gallery.ui.models.UIArtwork
 import com.tolodev.artic_gallery.ui.models.UIStatus
 import com.tolodev.artic_gallery.ui.theme.ArticGalleryTheme
 import com.tolodev.artic_gallery.ui.viewModels.ArtworkDetailViewModel
+import com.tolodev.artic_gallery.utils.bundleToMap
+import com.tolodev.artic_gallery.utils.mapToBundle
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -76,6 +78,16 @@ class ArtworkDetailFragment : Fragment() {
     private fun setupView(uiStatus: UIStatus<UIArtwork>) {
         modelDataView.clear()
         modelDataView.add(uiStatus)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putAll(mapToBundle(viewModel.setInstanceState()))
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        savedInstanceState?.let { viewModel.restoreInstanceState(bundleToMap(it)) }
+        super.onViewStateRestored(savedInstanceState)
     }
 
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
