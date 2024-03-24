@@ -118,7 +118,6 @@ class ArtworkDetailFragment : Fragment() {
                                 color = Color.Black,
                                 textAlign = TextAlign.Center
                             )
-
                             Button(onClick = { viewModel.saveFavoriteArtwork(uiArtwork.id) }) {
                                 Text(text = stringResource(id = R.string.copy_save))
                             }
@@ -152,11 +151,9 @@ class ArtworkDetailFragment : Fragment() {
                                     textAlign = TextAlign.Start
                                 )
                             }
-
                             item {
                                 Text(
                                     modifier = Modifier
-                                        .fillMaxWidth()
                                         .padding(16.dp)
                                         .background(Color.LightGray.copy(alpha = 0.2f))
                                         .padding(10.dp),

@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -95,7 +96,7 @@ class HomeFragment : Fragment() {
                     is UIStatus.Loading -> ArticGalleryLoader()
                     is UIStatus.Successful -> ArticGalleryHomeContent(
                         paddingValues = it,
-                        uiStatus.value
+                        artworks = uiStatus.value
                     )
 
                     is UIStatus.Error -> {
@@ -118,8 +119,8 @@ class HomeFragment : Fragment() {
             columns = GridCells.Fixed(2),
             contentPadding = paddingValues
         ) {
-            items(artworks.size) { index ->
-                ArtworkListItem(artworks[index])
+            items(artworks) { artwork ->
+                ArtworkListItem(artwork)
             }
         }
     }
