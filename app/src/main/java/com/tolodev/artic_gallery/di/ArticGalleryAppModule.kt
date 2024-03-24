@@ -5,6 +5,7 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.tolodev.artic_gallery.data.datasource.remote.IRemoteDatasource
 import com.tolodev.artic_gallery.data.datasource.remote.RemoteDatasource
 import com.tolodev.artic_gallery.data.datasource.remote.api.ArticGalleryApi
+import com.tolodev.artic_gallery.managers.ArticGalleryManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -105,6 +106,13 @@ object ArticGalleryAppModule {
 //    @Singleton
 //    fun provideShorteningLinkLocalDataSource(shortLinkDatabase: ShortLinkDatabase): LocalDataSource =
 //        ShortLinkDBDataSource(shortLinkDatabase)
+
+    @Provides
+    @Singleton
+    fun articGalleryManager(): ArticGalleryManager {
+        ArticGalleryManager.init()
+        return ArticGalleryManager.instance
+    }
 
     private fun getRetrofitBuilder(
         httpClient: OkHttpClient,

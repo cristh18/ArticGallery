@@ -5,17 +5,17 @@ data class Artwork(
     val title: String,
     val description: String,
     val imageId: String,
-    val thumbnailAltText: String, // alt_text
+    val thumbnailAltText: String,
     val dimensions: String,
     val originPlace: String,
     val dateStart: Int,
     val dateEnd: Int,
     val dateDisplay: String,
-    val artistName: String, // artist_title
-    val artistDisplay: String, // artist_display
-    val categories: List<String>, // category_titles
-    val styleTitle: String, // style_title
-    val techniques: List<String>, // technique_titles
+    val artistName: String,
+    val artistDisplay: String,
+    val categories: List<String>,
+    val styleTitle: String,
+    val techniques: List<String>,
 ) {
 
     fun getImages(): Map<ImageSize, ArtworkThumbnail> {

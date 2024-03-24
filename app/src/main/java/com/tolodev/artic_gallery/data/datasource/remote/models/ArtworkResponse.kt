@@ -275,9 +275,9 @@ data class DimensionsDetail(
     @Json(name = "diameter")
     val diameter: Any?,
     @Json(name = "height")
-    val height: Int,
+    val height: Int?,
     @Json(name = "width")
-    val width: Int
+    val width: Int?
 )
 
 @JsonClass(generateAdapter = true)

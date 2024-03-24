@@ -6,6 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tolodev.artic_gallery.domain.models.Artwork
 import com.tolodev.artic_gallery.domain.useCases.GetArtworksUseCase
+import com.tolodev.artic_gallery.managers.ArticGalleryManager
+import com.tolodev.artic_gallery.ui.mappers.toUIArtwork
+import com.tolodev.artic_gallery.ui.models.UIArtwork
 import com.tolodev.artic_gallery.ui.models.UIStatus
 import com.tolodev.artic_gallery.utils.getHttpErrorMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,10 +24,13 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(private val getArtworksUseCase: GetArtworksUseCase) :
+class HomeViewModel @Inject constructor(
+    private val getArtworksUseCase: GetArtworksUseCase,
+    private val articGalleryManager: ArticGalleryManager
+) :
     ViewModel() {
 
-    private val uiStatus = MutableLiveData<UIStatus<List<Artwork>>>()
+    private val uiStatus = MutableLiveData<UIStatus<List<UIArtwork>>>()
 
     fun initViewModel() {
         getArtworks()
@@ -38,9 +44,12 @@ class HomeViewModel @Inject constructor(private val getArtworksUseCase: GetArtwo
         }
     }
 
-    private fun getArtworksFlow(): Flow<List<Artwork>> {
+    private fun getArtworksFlow(): Flow<List<UIArtwork>> {
         return flow {
-            emit(getArtworksUseCase.invoke())
+            val artworks: List<Artwork> = getArtworksUseCase.invoke()
+            articGalleryManager.setArtworks(artworks)
+            val uiArtworks: List<UIArtwork> = artworks.map { it.toUIArtwork() }
+            emit(uiArtworks)
         }.onStart { uiStatus.postValue(UIStatus.Loading(true)) }
             .flowOn(Dispatchers.IO)
             .catch { showError(it) }
@@ -52,5 +61,5 @@ class HomeViewModel @Inject constructor(private val getArtworksUseCase: GetArtwo
         uiStatus.value = UIStatus.Error(errorMessage, throwable)
     }
 
-    fun uiStatusObserver(): LiveData<UIStatus<List<Artwork>>> = uiStatus
+    fun uiStatusObserver(): LiveData<UIStatus<List<UIArtwork>>> = uiStatus
 }

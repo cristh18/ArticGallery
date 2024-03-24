@@ -15,5 +15,10 @@
     <fragment
         android:id="@+id/artworkDetailFragment"
         android:name="com.tolodev.artic_gallery.ui.fragments.ArtworkDetailFragment"
-        android:label="ArtworkDetailFragment" />
+        android:label="ArtworkDetailFragment" >
+
+        <argument
+            android:name="artworkId"
+            app:argType="long" />
+    </fragment>
 </navigation>
