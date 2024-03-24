@@ -28,18 +28,28 @@ class ArtworkDetailViewModel @Inject constructor(
     private var artworkId: Long = 0
     fun initViewModel(artworkId: Long) {
         if (artworkId > 0) {
-            this.artworkId = artworkId
-            articGalleryManager.getCurrentArtwork(artworkId)?.let {
-                val uiArtwork = it.toUIArtwork()
-                uiStatus.value = UIStatus.Successful(uiArtwork)
-            }
+            // TODO CHECK IF EXISTS IN DATABASE TO UPDATE isFavorite VALUE
+            updateView(artworkId)
+        }
+    }
+
+    private fun updateView(artworkId: Long) {
+        this.artworkId = artworkId
+        articGalleryManager.getCurrentArtwork(artworkId)?.let {
+            val uiArtwork = it.toUIArtwork()
+            uiStatus.value = UIStatus.Successful(uiArtwork)
         }
     }
 
     fun saveFavoriteArtwork(artworkId: Long) {
         viewModelScope.launch {
-            articGalleryManager.getCurrentArtwork(artworkId)?.let {
-                saveArtworkUseCase.invoke(it)
+            articGalleryManager.toggleArtworkFavoriteStatus(artworkId)?.let {
+                updateView(it.id)
+                if (it.isFavorite) {
+                    saveArtworkUseCase.invoke(it)
+                } else {
+                    // TODO DELETE OR UPDATE CURRENT REGISTER
+                }
             }
         }
     }

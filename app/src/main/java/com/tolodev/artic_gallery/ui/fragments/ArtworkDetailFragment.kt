@@ -200,11 +200,13 @@ class ArtworkDetailFragment : Fragment() {
                 }
             },
             actions = {
+                val isFavorite = uiArtwork.isFavorite
+
                 AsyncImage(
                     modifier = Modifier
                         .size(24.dp)
                         .clickable { viewModel.saveFavoriteArtwork(uiArtwork.id) },
-                    model = R.drawable.ic_favorite_filled,
+                    model = if (isFavorite) R.drawable.ic_favorite_filled else R.drawable.ic_favorite_border,
                     contentDescription = stringResource(id = R.string.copy_save)
                 )
             }

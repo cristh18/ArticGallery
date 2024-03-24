@@ -16,8 +16,8 @@ data class Artwork(
     val categories: List<String>,
     val styleTitle: String,
     val techniques: List<String>,
+    var isFavorite: Boolean = false
 ) {
-
     fun getImages(): Map<ImageSize, ArtworkThumbnail> {
         val images = HashMap<ImageSize, ArtworkThumbnail>()
         return if (imageId.isNotBlank()) {

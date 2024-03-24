@@ -20,6 +20,7 @@ fun Artwork.toUIArtwork(): UIArtwork {
         categories = categories,
         styleTitle = styleTitle,
         techniques = techniques,
-        images = getImages()
+        images = getImages(),
+        isFavorite = isFavorite
     )
 }

@@ -20,5 +20,6 @@ data class UIArtwork(
     val styleTitle: String,
     val techniques: List<String>,
     val images: Map<ImageSize, ArtworkThumbnail>,
+    val isFavorite: Boolean = false,
     val action: () -> Unit? = {}
 )
