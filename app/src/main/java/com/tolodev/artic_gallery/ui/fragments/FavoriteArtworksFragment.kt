@@ -37,6 +37,7 @@ import com.tolodev.artic_gallery.R
 import com.tolodev.artic_gallery.domain.models.DataProviderMock
 import com.tolodev.artic_gallery.domain.models.ImageSize
 import com.tolodev.artic_gallery.extensions.composeView
+import com.tolodev.artic_gallery.ui.ArtworkFlow
 import com.tolodev.artic_gallery.ui.activities.MainActivity
 import com.tolodev.artic_gallery.ui.components.general.ArticGalleryLoader
 import com.tolodev.artic_gallery.ui.components.general.DisplayImageWithCustomLoadingIndicator
@@ -85,7 +86,10 @@ class FavoriteArtworksFragment : Fragment() {
     private fun showArtworkDetail(artwordId: Long) {
         (requireActivity() as MainActivity).hideBottomNavigationView()
         startDestination(
-            FavoriteArtworksFragmentDirections.actionFavoriteArtworksFragmentToArtworkDetailFragment(artwordId),
+            FavoriteArtworksFragmentDirections.actionFavoriteArtworksFragmentToArtworkDetailFragment(
+                artwordId,
+                ArtworkFlow.FAVORITES.name
+            ),
             this
         )
     }

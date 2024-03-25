@@ -75,10 +75,12 @@ class ArtworkDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         arguments?.let { bundle ->
             val args = ArtworkDetailFragmentArgs.fromBundle(bundle)
-            args.artworkId.let {
-                viewModel.initViewModel(it)
-                subscribe()
-                Timber.e("artworkId: $it")
+            args.artworkId.let { artworkId ->
+                args.flow.let { flow ->
+                    viewModel.initViewModel(artworkId, flow)
+                    subscribe()
+                    Timber.e("artworkId: $artworkId - flow: $flow")
+                }
             }
         }
     }
