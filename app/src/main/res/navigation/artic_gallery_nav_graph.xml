@@ -24,4 +24,12 @@
             android:id="@+id/action_artworkDetailFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/favoriteArtworksFragment"
+        android:name="com.tolodev.artic_gallery.ui.fragments.FavoriteArtworksFragment"
+        android:label="FavoriteArtworksFragment" >
+        <action
+            android:id="@+id/action_favoriteArtworksFragment_to_artworkDetailFragment"
+            app:destination="@id/artworkDetailFragment" />
+    </fragment>
 </navigation>

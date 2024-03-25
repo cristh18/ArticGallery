@@ -87,13 +87,13 @@ data class Data(
     @Json(name = "date_display")
     val dateDisplay: String,
     @Json(name = "date_end")
-    val dateEnd: Int,
+    val dateEnd: Int?,
     @Json(name = "date_qualifier_id")
     val dateQualifierId: Int?,
     @Json(name = "date_qualifier_title")
     val dateQualifierTitle: String,
     @Json(name = "date_start")
-    val dateStart: Int,
+    val dateStart: Int?,
     @Json(name = "department_id")
     val departmentId: String,
     @Json(name = "department_title")

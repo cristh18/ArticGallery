@@ -2,6 +2,7 @@ package com.tolodev.artic_gallery.data.datasource.remote.mappers
 
 import com.tolodev.artic_gallery.data.datasource.remote.models.ArtworkResponse
 import com.tolodev.artic_gallery.domain.models.Artwork
+import com.tolodev.artic_gallery.extensions.orZero
 
 fun ArtworkResponse.toDomainArtworks(): List<Artwork> {
     return data.map { artworkResponse ->
@@ -13,8 +14,8 @@ fun ArtworkResponse.toDomainArtworks(): List<Artwork> {
             thumbnailAltText = artworkResponse.thumbnail?.altText.orEmpty(),
             dimensions = artworkResponse.dimensions.orEmpty(),
             originPlace = artworkResponse.placeOfOrigin.orEmpty(),
-            dateStart = artworkResponse.dateStart,
-            dateEnd = artworkResponse.dateEnd,
+            dateStart = artworkResponse.dateStart.orZero(),
+            dateEnd = artworkResponse.dateEnd.orZero(),
             dateDisplay = artworkResponse.dateDisplay,
             artistName = artworkResponse.artistTitle.orEmpty(),
             artistDisplay = artworkResponse.artistDisplay.orEmpty(),
