@@ -155,128 +155,18 @@ class ArtworkDetailFragment : Fragment() {
                         .background(Color.White),
                 ) {
                     item {
-                        Box(modifier = Modifier.fillMaxWidth()) {
-                            val modifier: Modifier = Modifier
-                                .size(350.dp)
-                                .align(Alignment.Center)
-                                .clip(RoundedCornerShape(16.dp))
-                            DisplayImageWithCustomLoadingIndicator(
-                                modifier = modifier,
-                                url = uiArtwork.images[ImageSize.BIG]?.imageUrl.orEmpty(),
-                                contentDescription = uiArtwork.thumbnailAltText
-                            )
-                        }
+                        ArtworkImage(uiArtwork)
                     }
 
                     item {
-                        var expanded by remember { mutableStateOf(false) }
-
-                        Column(modifier = Modifier.fillMaxWidth()) {
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(top = 32.dp)
-                                    .background(Color.LightGray.copy(alpha = 0.2f)),
-                                verticalAlignment = Alignment.CenterVertically,
-                            ) {
-                                Spacer(modifier = Modifier.width(32.dp))
-                                Icon(
-                                    modifier = Modifier
-                                        .size(24.dp)
-                                        .clickable { expanded = !expanded },
-                                    imageVector = Icons.Filled.Add,
-                                    contentDescription = stringResource(id = R.string.copy_artwork_details),
-                                    tint = DeepTeal
-                                )
-                                Spacer(modifier = Modifier.width(8.dp))
-                                Text(
-                                    modifier = Modifier
-                                        .padding(top = 16.dp, bottom = 16.dp)
-                                        .clickable { expanded = !expanded },
-                                    text = stringResource(id = R.string.copy_artwork_details),
-                                    style = body.copy(
-                                        fontWeight = FontWeight.Bold, color = DeepTeal
-                                    ),
-                                )
-                            }
-
-                            val items = viewModel.getArtworkDetails(uiArtwork, requireContext())
-
-                            if (expanded) {
-                                items.forEach { item ->
-
-                                    val customizedText = buildAnnotatedString {
-                                        val boldIndex = item.indexOf(":") + 1
-                                        val boldText = item.substring(0, boldIndex)
-                                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                                            append(boldText)
-                                        }
-                                        val normalText = item.substring(boldIndex, item.length)
-                                        append(" $normalText")
-                                    }
-
-                                    Text(
-                                        modifier = Modifier.padding(
-                                            top = 8.dp, start = 48.dp, end = 16.dp
-                                        ),
-                                        text = customizedText,
-                                        style = caption2.copy(color = DeepTeal),
-                                    )
-                                }
-                            }
-                        }
+                        ArtworkDetailsItem(uiArtwork)
                     }
                     if (uiArtwork.description.isNotEmpty()) {
                         item {
-                            var expanded by remember { mutableStateOf(false) }
-                            Column(modifier = Modifier.fillMaxWidth()) {
-                                Row(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(top = 32.dp)
-                                        .background(Color.LightGray.copy(alpha = 0.2f)),
-                                    verticalAlignment = Alignment.CenterVertically,
-                                ) {
-                                    Spacer(modifier = Modifier.width(32.dp))
-                                    Icon(
-                                        modifier = Modifier
-                                            .size(24.dp)
-                                            .clickable { expanded = !expanded },
-                                        imageVector = Icons.Filled.Add,
-                                        contentDescription = stringResource(id = R.string.copy_description),
-                                        tint = DeepTeal
-                                    )
-                                    Spacer(modifier = Modifier.width(8.dp))
-                                    Text(
-                                        modifier = Modifier
-                                            .padding(top = 16.dp, bottom = 16.dp)
-                                            .clickable { expanded = !expanded },
-                                        text = stringResource(id = R.string.copy_description),
-                                        style = body.copy(
-                                            fontWeight = FontWeight.Bold, color = DeepTeal
-                                        ),
-                                        textAlign = TextAlign.Start
-                                    )
-                                }
-
-                                if (expanded) {
-                                    val descriptionText = uiArtwork.description.replace("<p>", "")
-                                        .replace("</p>", "")
-                                    Text(
-                                        modifier = Modifier.padding(
-                                            top = 8.dp, start = 48.dp, end = 16.dp
-                                        ),
-                                        text = descriptionText,
-                                        style = caption2.copy(color = DeepTeal),
-                                    )
-                                }
-                            }
-
+                            ArtworkDescriptionItem(uiArtwork)
                         }
                     }
                 }
-
-
             })
         }
     }
@@ -304,7 +194,6 @@ class ArtworkDetailFragment : Fragment() {
             }
         }, actions = {
             val isFavorite = uiArtwork.isFavorite
-
             AsyncImage(
                 modifier = Modifier
                     .size(24.dp)
@@ -313,6 +202,128 @@ class ArtworkDetailFragment : Fragment() {
                 contentDescription = stringResource(id = R.string.copy_save)
             )
         })
+    }
+
+    @Composable
+    private fun ArtworkImage(uiArtwork: UIArtwork) {
+        Box(modifier = Modifier.fillMaxWidth()) {
+            val modifier: Modifier = Modifier
+                .size(350.dp)
+                .align(Alignment.Center)
+                .clip(RoundedCornerShape(16.dp))
+            DisplayImageWithCustomLoadingIndicator(
+                modifier = modifier,
+                url = uiArtwork.images[ImageSize.BIG]?.imageUrl.orEmpty(),
+                contentDescription = uiArtwork.thumbnailAltText
+            )
+        }
+    }
+
+    @Composable
+    private fun ArtworkDetailsItem(uiArtwork: UIArtwork) {
+        var expanded by remember { mutableStateOf(false) }
+
+        Column(modifier = Modifier.fillMaxWidth()) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 32.dp)
+                    .background(Color.LightGray.copy(alpha = 0.2f)),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Spacer(modifier = Modifier.width(32.dp))
+                Icon(
+                    modifier = Modifier
+                        .size(24.dp)
+                        .clickable { expanded = !expanded },
+                    imageVector = Icons.Filled.Add,
+                    contentDescription = stringResource(id = R.string.copy_artwork_details),
+                    tint = DeepTeal
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    modifier = Modifier
+                        .padding(top = 16.dp, bottom = 16.dp)
+                        .clickable { expanded = !expanded },
+                    text = stringResource(id = R.string.copy_artwork_details),
+                    style = body.copy(
+                        fontWeight = FontWeight.Bold, color = DeepTeal
+                    ),
+                )
+            }
+
+            val items = viewModel.getArtworkDetails(uiArtwork, requireContext())
+
+            if (expanded) {
+                items.forEach { item ->
+
+                    val customizedText = buildAnnotatedString {
+                        val boldIndex = item.indexOf(":") + 1
+                        val boldText = item.substring(0, boldIndex)
+                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                            append(boldText)
+                        }
+                        val normalText = item.substring(boldIndex, item.length)
+                        append(" $normalText")
+                    }
+
+                    Text(
+                        modifier = Modifier.padding(
+                            top = 8.dp, start = 48.dp, end = 16.dp
+                        ),
+                        text = customizedText,
+                        style = caption2.copy(color = DeepTeal),
+                    )
+                }
+            }
+        }
+    }
+
+    @Composable
+    private fun ArtworkDescriptionItem(uiArtwork: UIArtwork) {
+        var expanded by remember { mutableStateOf(false) }
+        Column(modifier = Modifier.fillMaxWidth()) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 32.dp)
+                    .background(Color.LightGray.copy(alpha = 0.2f)),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Spacer(modifier = Modifier.width(32.dp))
+                Icon(
+                    modifier = Modifier
+                        .size(24.dp)
+                        .clickable { expanded = !expanded },
+                    imageVector = Icons.Filled.Add,
+                    contentDescription = stringResource(id = R.string.copy_description),
+                    tint = DeepTeal
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    modifier = Modifier
+                        .padding(top = 16.dp, bottom = 16.dp)
+                        .clickable { expanded = !expanded },
+                    text = stringResource(id = R.string.copy_description),
+                    style = body.copy(
+                        fontWeight = FontWeight.Bold, color = DeepTeal
+                    ),
+                    textAlign = TextAlign.Start
+                )
+            }
+
+            if (expanded) {
+                val descriptionText = uiArtwork.description.replace("<p>", "")
+                    .replace("</p>", "")
+                Text(
+                    modifier = Modifier.padding(
+                        top = 8.dp, start = 48.dp, end = 16.dp
+                    ),
+                    text = descriptionText,
+                    style = caption2.copy(color = DeepTeal),
+                )
+            }
+        }
     }
 
     @Preview(showBackground = true)
