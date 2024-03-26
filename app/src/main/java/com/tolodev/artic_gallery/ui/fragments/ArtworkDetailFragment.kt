@@ -95,9 +95,17 @@ class ArtworkDetailFragment : Fragment() {
     }
 
     private fun showHome() {
-        startDestination(
-            ArtworkDetailFragmentDirections.actionArtworkDetailFragmentToHomeFragment(), this
-        )
+        if (viewModel.isFavoriteFlow()) {
+            startDestination(
+                ArtworkDetailFragmentDirections.actionArtworkDetailFragmentToFavoriteArtworksFragment(),
+                this
+            )
+        } else {
+            startDestination(
+                ArtworkDetailFragmentDirections.actionArtworkDetailFragmentToHomeFragment(), this
+            )
+        }
+
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

@@ -40,6 +40,7 @@ class ArtworkDetailViewModel @Inject constructor(
 
     private var flow: String = ""
     fun initViewModel(artworkId: Long, flow: String) {
+        this.flow = flow
         if (artworkId > 0) {
             getFavoriteArtworkById(artworkId, flow)
         }
@@ -88,6 +89,7 @@ class ArtworkDetailViewModel @Inject constructor(
         artwork?.let { savedArtwork ->
             if (flow == ArtworkFlow.FAVORITES.name) {
                 this.artworkId = savedArtwork.id
+                this.flow = flow
                 val uiArtwork = savedArtwork.toUIArtwork()
                 uiStatus.value = UIStatus.Successful(uiArtwork)
             } else {
@@ -101,6 +103,10 @@ class ArtworkDetailViewModel @Inject constructor(
         } ?: run {
             updateView(artworkId)
         }
+    }
+
+    fun isFavoriteFlow(): Boolean {
+        return flow == ArtworkFlow.FAVORITES.name
     }
 
     fun setInstanceState(): MutableMap<String, Any?> {
