@@ -28,7 +28,7 @@ class LocalDataSource @Inject constructor(database: ArticGalleryDatabase) :
         artworkDao.insertArtwork(artwork.toArtworkEntity())
     }
 
-    override suspend fun deleteArtwork(id: Int) {
-        artworkDao.deleteArtwork(id)
+    override suspend fun deleteArtwork(artworkId: Long) {
+        artworkDao.deleteArtwork(artworkId)
     }
 }

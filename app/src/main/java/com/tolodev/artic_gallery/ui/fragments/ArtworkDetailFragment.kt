@@ -86,7 +86,12 @@ class ArtworkDetailFragment : Fragment() {
     }
 
     private fun subscribe() {
-        viewModel.uiStatusObserver().observe(viewLifecycleOwner, ::setupView)
+        with(viewModel) {
+            uiStatusObserver().observe(viewLifecycleOwner, ::setupView)
+            navigateObserver().observe(viewLifecycleOwner) {
+                showHome()
+            }
+        }
     }
 
     private fun setupView(uiStatus: UIStatus<UIArtwork>) {

@@ -19,6 +19,6 @@ interface ArtworkDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertArtwork(artworkEntity: ArtworkEntity)
 
-    @Query("DELETE FROM artwork WHERE id = :id")
-    suspend fun deleteArtwork(id: Int)
+    @Query("DELETE FROM artwork WHERE id = :artworkId")
+    suspend fun deleteArtwork(artworkId: Long)
 }

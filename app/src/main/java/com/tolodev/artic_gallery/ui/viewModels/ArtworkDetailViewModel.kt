@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tolodev.artic_gallery.domain.models.Artwork
+import com.tolodev.artic_gallery.domain.useCases.DeleteArtworkUseCase
 import com.tolodev.artic_gallery.domain.useCases.GetFavoriteArtworkByIdUseCase
 import com.tolodev.artic_gallery.domain.useCases.SaveArtworkUseCase
 import com.tolodev.artic_gallery.managers.ArticGalleryManager
@@ -30,11 +31,14 @@ private const val KEY_FLOW = "key_flow"
 class ArtworkDetailViewModel @Inject constructor(
     private val articGalleryManager: ArticGalleryManager,
     private val saveArtworkUseCase: SaveArtworkUseCase,
-    private val getFavoriteArtworkByIdUseCase: GetFavoriteArtworkByIdUseCase
+    private val getFavoriteArtworkByIdUseCase: GetFavoriteArtworkByIdUseCase,
+    private val deleteArtworkUseCase: DeleteArtworkUseCase
 ) :
     ViewModel() {
 
     private val uiStatus = MutableLiveData<UIStatus<UIArtwork>>()
+
+    private val navigate = MutableLiveData<Unit>()
 
     private var artworkId: Long = 0
 
@@ -68,15 +72,31 @@ class ArtworkDetailViewModel @Inject constructor(
 
     fun saveFavoriteArtwork(artworkId: Long) {
         viewModelScope.launch {
-            articGalleryManager.toggleArtworkFavoriteStatus(artworkId)?.let {
-                updateView(it.id)
-                if (it.isFavorite) {
-                    saveArtworkUseCase.invoke(it)
-                } else {
-                    // TODO DELETE OR UPDATE CURRENT REGISTER
+            if (isFavoriteFlow()) {
+                deleteArtwork(artworkId) { showFavoriteArtworksList() }
+            } else {
+                articGalleryManager.toggleArtworkFavoriteStatus(artworkId)?.let {
+                    updateView(it.id)
+                    if (it.isFavorite) {
+                        saveArtworkUseCase.invoke(it)
+                    } else {
+                        deleteArtwork(artworkId)
+                    }
                 }
             }
+
         }
+    }
+
+    private fun deleteArtwork(artworkId: Long, action: (() -> Unit)? = null) {
+        viewModelScope.launch {
+            deleteArtworkUseCase.invoke(artworkId)
+            action?.invoke()
+        }
+    }
+
+    private fun showFavoriteArtworksList() {
+        navigate.postValue(Unit)
     }
 
     private fun showError(throwable: Throwable) {
@@ -87,7 +107,7 @@ class ArtworkDetailViewModel @Inject constructor(
 
     private fun showFavoriteArtwork(artwork: Artwork?, artworkId: Long, flow: String) {
         artwork?.let { savedArtwork ->
-            if (flow == ArtworkFlow.FAVORITES.name) {
+            if (isFavoriteFlow()) {
                 this.artworkId = savedArtwork.id
                 this.flow = flow
                 val uiArtwork = savedArtwork.toUIArtwork()
@@ -124,4 +144,7 @@ class ArtworkDetailViewModel @Inject constructor(
 
     @CheckResult
     fun uiStatusObserver(): LiveData<UIStatus<UIArtwork>> = uiStatus
+
+    @CheckResult
+    fun navigateObserver(): LiveData<Unit> = navigate
 }

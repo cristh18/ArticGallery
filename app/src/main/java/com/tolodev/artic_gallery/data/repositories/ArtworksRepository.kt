@@ -13,13 +13,21 @@ class ArtworksRepository @Inject constructor(
     private val remoteDatasource: RemoteDatasource
 ) {
 
-    fun getFavoriteArtworks(): Flow<List<Artwork>> = localDataSource.getArtworks()
+    fun getFavoriteArtworks(): Flow<List<Artwork>> {
+        return localDataSource.getArtworks()
+    }
 
-    fun getFavoriteArtworkById(artwordId: Long): Flow<Artwork?> = localDataSource.getArtworkById(artwordId)
+    fun getFavoriteArtworkById(artwordId: Long): Flow<Artwork?> {
+        return localDataSource.getArtworkById(artwordId)
+    }
 
-    suspend fun saveArtwork(artwork: Artwork) = localDataSource.saveArtwork(artwork)
+    suspend fun saveArtwork(artwork: Artwork) {
+        localDataSource.saveArtwork(artwork)
+    }
 
-    suspend fun deleteLink(id: Int) = localDataSource.deleteArtwork(id)
+    suspend fun deleteArtwork(artworkId: Long) {
+        localDataSource.deleteArtwork(artworkId)
+    }
 
     suspend fun getArtworks(): List<Artwork> {
         return withTimeout(30_000) { remoteDatasource.getArtworks().toDomainArtworks() }

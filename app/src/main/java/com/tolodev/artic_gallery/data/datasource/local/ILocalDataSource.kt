@@ -11,5 +11,5 @@ interface ILocalDataSource {
 
     suspend fun saveArtwork(artwork: Artwork)
 
-    suspend fun deleteArtwork(id: Int)
+    suspend fun deleteArtwork(artworkId: Long)
 }
