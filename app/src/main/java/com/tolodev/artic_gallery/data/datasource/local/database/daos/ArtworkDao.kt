@@ -14,7 +14,7 @@ interface ArtworkDao {
     fun getAll(): Flow<List<ArtworkEntity>>
 
     @Query("SELECT * FROM artwork where id  = :artworkId")
-    fun getById(artworkId: Long): Flow<ArtworkEntity>
+    fun getById(artworkId: Long): Flow<ArtworkEntity?>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertArtwork(artworkEntity: ArtworkEntity)

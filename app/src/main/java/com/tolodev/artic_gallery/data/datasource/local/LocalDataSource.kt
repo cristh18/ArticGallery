@@ -20,8 +20,8 @@ class LocalDataSource @Inject constructor(database: ArticGalleryDatabase) :
         }
     }
 
-    override fun getArtworkById(artworkId: Long): Flow<Artwork> {
-        return artworkDao.getById(artworkId).map { it.toDomainArtwork() }
+    override fun getArtworkById(artworkId: Long): Flow<Artwork?> {
+        return artworkDao.getById(artworkId).map { it?.toDomainArtwork() }
     }
 
     override suspend fun saveArtwork(artwork: Artwork) {

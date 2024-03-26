@@ -58,6 +58,19 @@ class ArticGalleryManager private constructor() : CoroutineScope {
         }
     }
 
+    fun updateArtworkFavoriteStatus(artworkId: Long, isFavorite: Boolean): Artwork? {
+        return artworks?.let { artworkList ->
+            val index = artworkList.indexOfFirst { it.id == artworkId }
+            if (index != -1) {
+                val updatedArtwork =
+                    artworkList[index].copy(isFavorite = isFavorite)
+                artworks = artworkList.toMutableList().apply { this[index] = updatedArtwork }
+                return updatedArtwork
+            }
+            return null
+        }
+    }
+
     private fun setDefaultValues() {
         artworks = null
     }

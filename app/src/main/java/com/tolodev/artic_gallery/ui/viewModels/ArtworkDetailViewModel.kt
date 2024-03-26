@@ -16,6 +16,7 @@ import com.tolodev.artic_gallery.ui.models.UIStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
@@ -40,23 +41,19 @@ class ArtworkDetailViewModel @Inject constructor(
     private var flow: String = ""
     fun initViewModel(artworkId: Long, flow: String) {
         if (artworkId > 0) {
-            if (flow == ArtworkFlow.FAVORITES.name) {
-                getFavoriteArtworkById(artworkId)
-            } else {
-                // TODO CHECK IF EXISTS IN DATABASE TO UPDATE isFavorite VALUE
-                updateView(artworkId)
-            }
-
+            getFavoriteArtworkById(artworkId, flow)
         }
     }
 
-    private fun getFavoriteArtworkById(artworkId: Long) {
+    private fun getFavoriteArtworkById(artworkId: Long, flow: String) {
         viewModelScope.launch {
             getFavoriteArtworkByIdUseCase.invoke(artworkId)
                 .flowOn(Dispatchers.IO)
                 .onStart { uiStatus.value = UIStatus.Loading(true) }
                 .catch { showError(it) }
-                .collect(::showFavoriteArtwork)
+                .collectLatest {
+                    showFavoriteArtwork(it, artworkId, flow)
+                }
         }
     }
 
@@ -87,10 +84,23 @@ class ArtworkDetailViewModel @Inject constructor(
         uiStatus.value = UIStatus.Error(throwable.message.orEmpty(), throwable)
     }
 
-    private fun showFavoriteArtwork(artwork: Artwork) {
-        artworkId = artwork.id
-        val uiArtwork = artwork.toUIArtwork()
-        uiStatus.value = UIStatus.Successful(uiArtwork)
+    private fun showFavoriteArtwork(artwork: Artwork?, artworkId: Long, flow: String) {
+        artwork?.let { savedArtwork ->
+            if (flow == ArtworkFlow.FAVORITES.name) {
+                this.artworkId = savedArtwork.id
+                val uiArtwork = savedArtwork.toUIArtwork()
+                uiStatus.value = UIStatus.Successful(uiArtwork)
+            } else {
+                articGalleryManager.updateArtworkFavoriteStatus(
+                    savedArtwork.id,
+                    savedArtwork.isFavorite
+                )?.let {
+                    updateView(artworkId)
+                }
+            }
+        } ?: run {
+            updateView(artworkId)
+        }
     }
 
     fun setInstanceState(): MutableMap<String, Any?> {

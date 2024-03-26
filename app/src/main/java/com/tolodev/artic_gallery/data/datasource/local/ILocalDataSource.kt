@@ -7,7 +7,7 @@ interface ILocalDataSource {
 
     fun getArtworks(): Flow<List<Artwork>>
 
-    fun getArtworkById(artworkId: Long): Flow<Artwork>
+    fun getArtworkById(artworkId: Long): Flow<Artwork?>
 
     suspend fun saveArtwork(artwork: Artwork)
 

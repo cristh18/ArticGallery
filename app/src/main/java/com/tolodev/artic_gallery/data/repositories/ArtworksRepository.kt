@@ -15,7 +15,7 @@ class ArtworksRepository @Inject constructor(
 
     fun getFavoriteArtworks(): Flow<List<Artwork>> = localDataSource.getArtworks()
 
-    fun getFavoriteArtworkById(artwordId: Long): Flow<Artwork> = localDataSource.getArtworkById(artwordId)
+    fun getFavoriteArtworkById(artwordId: Long): Flow<Artwork?> = localDataSource.getArtworkById(artwordId)
 
     suspend fun saveArtwork(artwork: Artwork) = localDataSource.saveArtwork(artwork)
 

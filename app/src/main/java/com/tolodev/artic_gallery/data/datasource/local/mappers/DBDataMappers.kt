@@ -20,6 +20,7 @@ fun ArtworkEntity.toDomainArtwork(): Artwork {
         categories = categories.split(","),
         styleTitle = styleTitle,
         techniques = techniques.split(","),
+        isFavorite = true
     )
 }
 

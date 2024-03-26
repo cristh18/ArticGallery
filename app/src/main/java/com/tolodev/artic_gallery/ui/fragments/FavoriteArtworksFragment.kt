@@ -61,6 +61,7 @@ class FavoriteArtworksFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        (requireActivity() as MainActivity).showBottomNavigationView()
         return composeView {
             modelDataView.forEach { model ->
                 FavoriteArtworksComponent(model)
