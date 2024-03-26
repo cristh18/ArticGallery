@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -25,7 +26,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -36,8 +39,10 @@ import com.tolodev.artic_gallery.domain.models.ImageSize
 import com.tolodev.artic_gallery.extensions.composeView
 import com.tolodev.artic_gallery.ui.ArtworkFlow
 import com.tolodev.artic_gallery.ui.activities.MainActivity
-import com.tolodev.artic_gallery.ui.components.general.ArticGalleryLoader
-import com.tolodev.artic_gallery.ui.components.general.DisplayImageWithCustomLoadingIndicator
+import com.tolodev.artic_gallery.ui.components.ArticGalleryError
+import com.tolodev.artic_gallery.ui.components.ArticGalleryLoader
+import com.tolodev.artic_gallery.ui.components.DisplayImageWithCustomLoadingIndicator
+import com.tolodev.artic_gallery.ui.components.style.caption2
 import com.tolodev.artic_gallery.ui.models.UIArtwork
 import com.tolodev.artic_gallery.ui.models.UIStatus
 import com.tolodev.artic_gallery.ui.theme.ArticGalleryTheme
@@ -54,9 +59,7 @@ class HomeFragment : Fragment() {
     private val viewModel by viewModels<HomeViewModel>()
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         (requireActivity() as MainActivity).showBottomNavigationView()
         return composeView {
@@ -85,33 +88,28 @@ class HomeFragment : Fragment() {
         (requireActivity() as MainActivity).hideBottomNavigationView()
         startDestination(
             HomeFragmentDirections.actionHomeFragmentToArtworkDetailFragment(
-                artwordId,
-                ArtworkFlow.RECENT.name
-            ),
-            this
+                artwordId, ArtworkFlow.RECENT.name
+            ), this
         )
     }
 
     @Composable
     fun HomeComponent(uiStatus: UIStatus<List<UIArtwork>>) {
-        Scaffold(
-            modifier = Modifier.fillMaxSize(),
+        Scaffold(modifier = Modifier.fillMaxSize(),
             contentColor = MaterialTheme.colorScheme.background,
             content = {
                 when (uiStatus) {
                     is UIStatus.Loading -> ArticGalleryLoader()
                     is UIStatus.Successful -> ArticGalleryHomeContent(
-                        paddingValues = it,
-                        artworks = uiStatus.value
+                        paddingValues = it, artworks = uiStatus.value
                     )
 
                     is UIStatus.Error -> {
                         Timber.e("Error: ${uiStatus.msg}")
-                        Text(text = uiStatus.msg)
+                        ArticGalleryError(uiStatus.msg)
                     }
                 }
-            }
-        )
+            })
     }
 
     @Composable
@@ -134,8 +132,7 @@ class HomeFragment : Fragment() {
     @Composable
     fun ArtworkListItem(uiArtwork: UIArtwork) {
         Timber.d(
-            "ArtworkListItem",
-            "Title: ${uiArtwork.title}, Description: ${uiArtwork.description}"
+            "ArtworkListItem", "Title: ${uiArtwork.title}, Description: ${uiArtwork.description}"
         )
         Card(
             modifier = Modifier
@@ -156,14 +153,15 @@ class HomeFragment : Fragment() {
                 DisplayImageWithCustomLoadingIndicator(
                     modifier = Modifier
                         .size(200.dp)
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(16.dp)),
                     url = uiArtwork.images[ImageSize.TINY]?.imageUrl.orEmpty(),
                     contentDescription = uiArtwork.thumbnailAltText
                 )
                 Text(
+                    modifier = Modifier.padding(top = 4.dp, bottom = 16.dp),
                     text = uiArtwork.title,
-                    style = MaterialTheme.typography.titleMedium,
-                    color = Color.Black,
+                    style = caption2.copy(fontWeight = FontWeight.SemiBold),
                     textAlign = TextAlign.Center
                 )
             }

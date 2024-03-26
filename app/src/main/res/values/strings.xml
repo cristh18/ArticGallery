@@ -4,4 +4,5 @@
     <string name="copy_save">Save</string>
     <string name="copy_share">Share</string>
     <string name="copy_delete">Delete</string>
+    <string name="copy_error">Error</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.tolodev.artic_gallery.ui.components.general
+package com.tolodev.artic_gallery.ui.components
 
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text

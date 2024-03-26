@@ -39,8 +39,8 @@ import com.tolodev.artic_gallery.domain.models.ImageSize
 import com.tolodev.artic_gallery.extensions.composeView
 import com.tolodev.artic_gallery.ui.ArtworkFlow
 import com.tolodev.artic_gallery.ui.activities.MainActivity
-import com.tolodev.artic_gallery.ui.components.general.ArticGalleryLoader
-import com.tolodev.artic_gallery.ui.components.general.DisplayImageWithCustomLoadingIndicator
+import com.tolodev.artic_gallery.ui.components.ArticGalleryLoader
+import com.tolodev.artic_gallery.ui.components.DisplayImageWithCustomLoadingIndicator
 import com.tolodev.artic_gallery.ui.models.UIArtwork
 import com.tolodev.artic_gallery.ui.models.UIStatus
 import com.tolodev.artic_gallery.ui.theme.ArticGalleryTheme
@@ -157,14 +157,14 @@ class FavoriteArtworksFragment : Fragment() {
                 Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
                     IconButton(onClick = { /*TODO*/ }) {
                         Icon(
-                            Icons.Filled.Share,
+                            imageVector = Icons.Filled.Share,
                             contentDescription = stringResource(id = R.string.copy_share)
                         )
                     }
 
                     IconButton(onClick = { /*TODO*/ }) {
                         Icon(
-                            Icons.Filled.Delete,
+                            imageVector = Icons.Filled.Delete,
                             contentDescription = stringResource(id = R.string.copy_delete)
                         )
                     }

@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -28,13 +29,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import coil.compose.AsyncImage
@@ -42,7 +43,10 @@ import com.tolodev.artic_gallery.R
 import com.tolodev.artic_gallery.domain.models.DataProviderMock
 import com.tolodev.artic_gallery.domain.models.ImageSize
 import com.tolodev.artic_gallery.extensions.composeView
-import com.tolodev.artic_gallery.ui.components.general.DisplayImageWithCustomLoadingIndicator
+import com.tolodev.artic_gallery.ui.components.DisplayImageWithCustomLoadingIndicator
+import com.tolodev.artic_gallery.ui.components.style.body
+import com.tolodev.artic_gallery.ui.components.style.caption1
+import com.tolodev.artic_gallery.ui.components.style.caption2
 import com.tolodev.artic_gallery.ui.models.UIArtwork
 import com.tolodev.artic_gallery.ui.models.UIStatus
 import com.tolodev.artic_gallery.ui.theme.ArticGalleryTheme
@@ -147,6 +151,7 @@ class ArtworkDetailFragment : Fragment() {
                                 val modifier: Modifier = Modifier
                                     .size(350.dp)
                                     .align(Alignment.Center)
+                                    .clip(RoundedCornerShape(16.dp))
                                 DisplayImageWithCustomLoadingIndicator(
                                     modifier = modifier,
                                     url = uiArtwork.images[ImageSize.BIG]?.imageUrl.orEmpty(),
@@ -160,10 +165,7 @@ class ArtworkDetailFragment : Fragment() {
                                 modifier = Modifier
                                     .padding(8.dp),
                                 text = stringResource(id = R.string.copy_description),
-                                style = MaterialTheme.typography.titleLarge,
-                                color = Color.Black,
-                                fontWeight = FontWeight(1000),
-                                fontSize = 18.sp,
+                                style = caption2.copy(fontWeight = FontWeight.Bold),
                                 textAlign = TextAlign.Start
                             )
                         }
@@ -174,9 +176,7 @@ class ArtworkDetailFragment : Fragment() {
                                     .background(Color.LightGray.copy(alpha = 0.2f))
                                     .padding(10.dp),
                                 text = uiArtwork.description,
-                                style = MaterialTheme.typography.bodySmall,
-                                color = Color.Black,
-                                fontSize = 14.sp,
+                                style = caption1,
                                 textAlign = TextAlign.Center
                             )
                         }
@@ -201,8 +201,7 @@ class ArtworkDetailFragment : Fragment() {
             title = {
                 Text(
                     text = uiArtwork.title,
-                    style = MaterialTheme.typography.titleLarge,
-                    color = Color.Black,
+                    style = body.copy(fontWeight = FontWeight.SemiBold),
                     textAlign = TextAlign.Center
                 )
             },
