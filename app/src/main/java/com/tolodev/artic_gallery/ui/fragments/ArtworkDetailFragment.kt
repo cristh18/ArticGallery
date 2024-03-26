@@ -8,32 +8,43 @@ import android.view.ViewGroup
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
@@ -45,7 +56,6 @@ import com.tolodev.artic_gallery.domain.models.ImageSize
 import com.tolodev.artic_gallery.extensions.composeView
 import com.tolodev.artic_gallery.ui.components.DisplayImageWithCustomLoadingIndicator
 import com.tolodev.artic_gallery.ui.components.style.body
-import com.tolodev.artic_gallery.ui.components.style.caption1
 import com.tolodev.artic_gallery.ui.components.style.caption2
 import com.tolodev.artic_gallery.ui.models.UIArtwork
 import com.tolodev.artic_gallery.ui.models.UIStatus
@@ -68,8 +78,7 @@ class ArtworkDetailFragment : Fragment() {
     private val viewModel by viewModels<ArtworkDetailViewModel>()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         return composeView {
             if (modelDataView.isNotEmpty()) {
@@ -135,59 +144,140 @@ class ArtworkDetailFragment : Fragment() {
     fun ArtworkComponent(uiStatus: UIStatus<UIArtwork>) {
         if (uiStatus is UIStatus.Successful) {
             val uiArtwork: UIArtwork = uiStatus.value
-            Scaffold(
-                modifier = Modifier.fillMaxSize(),
-                contentColor = VeryLightCyan,
-                topBar = {
-                    ArtworkDetailTopBar(uiArtwork)
-                },
-                content = {
-                    LazyColumn(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight()
-                            .padding(top = 80.dp)
-                            .background(Color.White),
-                    ) {
-                        item {
-                            Box(modifier = Modifier.fillMaxWidth()) {
-                                val modifier: Modifier = Modifier
-                                    .size(350.dp)
-                                    .align(Alignment.Center)
-                                    .clip(RoundedCornerShape(16.dp))
-                                DisplayImageWithCustomLoadingIndicator(
-                                    modifier = modifier,
-                                    url = uiArtwork.images[ImageSize.BIG]?.imageUrl.orEmpty(),
-                                    contentDescription = uiArtwork.thumbnailAltText
-                                )
-                            }
-                        }
-
-                        item {
-                            Text(
-                                modifier = Modifier
-                                    .padding(8.dp),
-                                text = stringResource(id = R.string.copy_description),
-                                style = caption2.copy(fontWeight = FontWeight.Bold),
-                                textAlign = TextAlign.Start
-                            )
-                        }
-                        item {
-                            Text(
-                                modifier = Modifier
-                                    .padding(16.dp)
-                                    .background(Color.LightGray.copy(alpha = 0.2f))
-                                    .padding(10.dp),
-                                text = uiArtwork.description,
-                                style = caption1,
-                                textAlign = TextAlign.Center
+            Scaffold(modifier = Modifier.fillMaxSize(), contentColor = VeryLightCyan, topBar = {
+                ArtworkDetailTopBar(uiArtwork)
+            }, content = {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+                        .padding(top = 80.dp)
+                        .background(Color.White),
+                ) {
+                    item {
+                        Box(modifier = Modifier.fillMaxWidth()) {
+                            val modifier: Modifier = Modifier
+                                .size(350.dp)
+                                .align(Alignment.Center)
+                                .clip(RoundedCornerShape(16.dp))
+                            DisplayImageWithCustomLoadingIndicator(
+                                modifier = modifier,
+                                url = uiArtwork.images[ImageSize.BIG]?.imageUrl.orEmpty(),
+                                contentDescription = uiArtwork.thumbnailAltText
                             )
                         }
                     }
 
+                    item {
+                        var expanded by remember { mutableStateOf(false) }
 
+                        Column(modifier = Modifier.fillMaxWidth()) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(top = 32.dp)
+                                    .background(Color.LightGray.copy(alpha = 0.2f)),
+                                verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                                Spacer(modifier = Modifier.width(32.dp))
+                                Icon(
+                                    modifier = Modifier
+                                        .size(24.dp)
+                                        .clickable { expanded = !expanded },
+                                    imageVector = Icons.Filled.Add,
+                                    contentDescription = stringResource(id = R.string.copy_artwork_details),
+                                    tint = DeepTeal
+                                )
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Text(
+                                    modifier = Modifier
+                                        .padding(top = 16.dp, bottom = 16.dp)
+                                        .clickable { expanded = !expanded },
+                                    text = stringResource(id = R.string.copy_artwork_details),
+                                    style = body.copy(
+                                        fontWeight = FontWeight.Bold, color = DeepTeal
+                                    ),
+                                )
+                            }
+
+                            val items = viewModel.getArtworkDetails(uiArtwork, requireContext())
+
+                            if (expanded) {
+                                items.forEach { item ->
+
+                                    val customizedText = buildAnnotatedString {
+                                        val boldIndex = item.indexOf(":") + 1
+                                        val boldText = item.substring(0, boldIndex)
+                                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                            append(boldText)
+                                        }
+                                        val normalText = item.substring(boldIndex, item.length)
+                                        append(" $normalText")
+                                    }
+
+                                    Text(
+                                        modifier = Modifier.padding(
+                                            top = 8.dp, start = 48.dp, end = 16.dp
+                                        ),
+                                        text = customizedText,
+                                        style = caption2.copy(color = DeepTeal),
+                                    )
+                                }
+                            }
+                        }
+                    }
+                    if (uiArtwork.description.isNotEmpty()) {
+                        item {
+                            var expanded by remember { mutableStateOf(false) }
+                            Column(modifier = Modifier.fillMaxWidth()) {
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(top = 32.dp)
+                                        .background(Color.LightGray.copy(alpha = 0.2f)),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                ) {
+                                    Spacer(modifier = Modifier.width(32.dp))
+                                    Icon(
+                                        modifier = Modifier
+                                            .size(24.dp)
+                                            .clickable { expanded = !expanded },
+                                        imageVector = Icons.Filled.Add,
+                                        contentDescription = stringResource(id = R.string.copy_description),
+                                        tint = DeepTeal
+                                    )
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Text(
+                                        modifier = Modifier
+                                            .padding(top = 16.dp, bottom = 16.dp)
+                                            .clickable { expanded = !expanded },
+                                        text = stringResource(id = R.string.copy_description),
+                                        style = body.copy(
+                                            fontWeight = FontWeight.Bold, color = DeepTeal
+                                        ),
+                                        textAlign = TextAlign.Start
+                                    )
+                                }
+
+                                if (expanded) {
+                                    val descriptionText = uiArtwork.description.replace("<p>", "")
+                                        .replace("</p>", "")
+                                    Text(
+                                        modifier = Modifier.padding(
+                                            top = 8.dp, start = 48.dp, end = 16.dp
+                                        ),
+                                        text = descriptionText,
+                                        style = caption2.copy(color = DeepTeal),
+                                    )
+                                }
+                            }
+
+                        }
+                    }
                 }
-            )
+
+
+            })
         }
     }
 
@@ -196,38 +286,33 @@ class ArtworkDetailFragment : Fragment() {
     private fun ArtworkDetailTopBar(
         uiArtwork: UIArtwork
     ) {
-        TopAppBar(
-            colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = PaleCyan,
-                titleContentColor = DeepTeal,
-            ),
-            title = {
-                Text(
-                    text = uiArtwork.title,
-                    style = body.copy(fontWeight = FontWeight.SemiBold),
-                    textAlign = TextAlign.Center
-                )
-            },
-            navigationIcon = {
-                IconButton(onClick = { showHome() }) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = "Localized description"
-                    )
-                }
-            },
-            actions = {
-                val isFavorite = uiArtwork.isFavorite
-
-                AsyncImage(
-                    modifier = Modifier
-                        .size(24.dp)
-                        .clickable { viewModel.saveFavoriteArtwork(uiArtwork.id) },
-                    model = if (isFavorite) R.drawable.ic_favorite_filled else R.drawable.ic_favorite_border,
-                    contentDescription = stringResource(id = R.string.copy_save)
+        TopAppBar(colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = PaleCyan,
+            titleContentColor = DeepTeal,
+        ), title = {
+            Text(
+                text = uiArtwork.title,
+                style = body.copy(fontWeight = FontWeight.SemiBold),
+                textAlign = TextAlign.Center
+            )
+        }, navigationIcon = {
+            IconButton(onClick = { showHome() }) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = "Localized description"
                 )
             }
-        )
+        }, actions = {
+            val isFavorite = uiArtwork.isFavorite
+
+            AsyncImage(
+                modifier = Modifier
+                    .size(24.dp)
+                    .clickable { viewModel.saveFavoriteArtwork(uiArtwork.id) },
+                model = if (isFavorite) R.drawable.ic_favorite_filled else R.drawable.ic_favorite_border,
+                contentDescription = stringResource(id = R.string.copy_save)
+            )
+        })
     }
 
     @Preview(showBackground = true)

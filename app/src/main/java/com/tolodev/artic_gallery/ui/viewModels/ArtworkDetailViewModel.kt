@@ -1,10 +1,12 @@
 package com.tolodev.artic_gallery.ui.viewModels
 
+import android.content.Context
 import androidx.annotation.CheckResult
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.tolodev.artic_gallery.R
 import com.tolodev.artic_gallery.domain.models.Artwork
 import com.tolodev.artic_gallery.domain.useCases.DeleteArtworkUseCase
 import com.tolodev.artic_gallery.domain.useCases.GetFavoriteArtworkByIdUseCase
@@ -127,6 +129,70 @@ class ArtworkDetailViewModel @Inject constructor(
 
     fun isFavoriteFlow(): Boolean {
         return flow == ArtworkFlow.FAVORITES.name
+    }
+
+    fun getArtworkDetails(uiArtwork: UIArtwork, context: Context): List<String> {
+        val artworkDetails = mutableListOf<String>()
+        if (uiArtwork.dimensions.isNotEmpty()) {
+            val dimensionsText: String =
+                context.getString(R.string.copy_dimensions) + uiArtwork.dimensions
+            artworkDetails += dimensionsText
+        }
+
+        if (uiArtwork.originPlace.isNotEmpty()) {
+            val originPlaceText: String =
+                context.getString(R.string.copy_origin_place) + uiArtwork.originPlace
+            artworkDetails += originPlaceText
+        }
+
+        if (uiArtwork.dateStart > 0 && uiArtwork.dateEnd > 0) {
+            val completionDateText: String =
+                context.getString(R.string.copy_completion_date) + uiArtwork.dateStart + " - " + uiArtwork.dateEnd
+            artworkDetails += completionDateText
+        }
+
+        if (uiArtwork.dateDisplay.isNotEmpty()) {
+            val displayText: String =
+                context.getString(R.string.copy_exhibition_date) + uiArtwork.dateDisplay
+            artworkDetails += displayText
+        }
+
+        if (uiArtwork.artistName.isNotEmpty()) {
+            val artistNameText: String =
+                context.getString(R.string.copy_artist) + uiArtwork.artistName
+            artworkDetails += artistNameText
+        }
+
+        if (uiArtwork.artistDisplay.isNotEmpty()) {
+            val artistDisplayText: String =
+                context.getString(R.string.copy_artist_lifetime) + uiArtwork.artistDisplay
+            artworkDetails += artistDisplayText
+        }
+
+        if (uiArtwork.categories.isNotEmpty()) {
+            val categoriesText: String =
+                context.getString(R.string.copy_categories) + uiArtwork.categories.joinToString(
+                    separator = ", "
+                )
+            artworkDetails += categoriesText
+        }
+
+        if (uiArtwork.styleTitle.isNotEmpty()) {
+            val styleText: String =
+                context.getString(R.string.copy_style) + uiArtwork.styleTitle
+            artworkDetails += styleText
+        }
+
+        if (uiArtwork.techniques.isNotEmpty()) {
+            val techniquesText: String =
+                context.getString(R.string.copy_categories) + uiArtwork.techniques.joinToString(
+                    separator = ", "
+                )
+            artworkDetails += techniquesText
+        }
+
+
+        return artworkDetails.toList()
     }
 
     fun setInstanceState(): MutableMap<String, Any?> {

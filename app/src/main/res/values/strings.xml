@@ -7,4 +7,14 @@
     <string name="copy_error">Error</string>
     <string name="copy_home">Home</string>
     <string name="copy_favorites">Favorites</string>
+    <string name="copy_artwork_details">Artwork details</string>
+    <string name="copy_dimensions">Dimensions: </string>
+    <string name="copy_origin_place">Place of origin: </string>
+    <string name="copy_completion_date">Date of completion: </string>
+    <string name="copy_exhibition_date">Exhibition date: </string>
+    <string name="copy_artist">Artist: </string>
+    <string name="copy_artist_lifetime">Artist lifetime: </string>
+    <string name="copy_categories">Categories: </string>
+    <string name="copy_style">Style: </string>
+    <string name="copy_technique">Technique(s): </string>
 </resources>
