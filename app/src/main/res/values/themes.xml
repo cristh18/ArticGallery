@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.ArticGallery" parent="android:Theme.Material.Light.NoActionBar" />
+    <!-- Base application theme. -->
+    <style name="Theme.ArticGallery" parent="Theme.MaterialComponents.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/dark_cyan</item>
+        <item name="colorPrimaryVariant">@color/deep_teal</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/light_aqua</item>
+        <item name="colorSecondaryVariant">@color/pale_cyan</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <item name="fontFamily">@font/poppins_regular</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
 
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
         // Set the splash screen background, animated icon, and animation duration.

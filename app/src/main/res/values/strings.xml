@@ -5,4 +5,6 @@
     <string name="copy_share">Share</string>
     <string name="copy_delete">Delete</string>
     <string name="copy_error">Error</string>
+    <string name="copy_home">Home</string>
+    <string name="copy_favorites">Favorites</string>
 </resources>

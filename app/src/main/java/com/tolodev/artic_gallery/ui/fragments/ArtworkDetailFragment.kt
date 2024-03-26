@@ -50,6 +50,9 @@ import com.tolodev.artic_gallery.ui.components.style.caption2
 import com.tolodev.artic_gallery.ui.models.UIArtwork
 import com.tolodev.artic_gallery.ui.models.UIStatus
 import com.tolodev.artic_gallery.ui.theme.ArticGalleryTheme
+import com.tolodev.artic_gallery.ui.theme.DeepTeal
+import com.tolodev.artic_gallery.ui.theme.PaleCyan
+import com.tolodev.artic_gallery.ui.theme.VeryLightCyan
 import com.tolodev.artic_gallery.ui.viewModels.ArtworkDetailViewModel
 import com.tolodev.artic_gallery.utils.bundleToMap
 import com.tolodev.artic_gallery.utils.mapToBundle
@@ -134,7 +137,7 @@ class ArtworkDetailFragment : Fragment() {
             val uiArtwork: UIArtwork = uiStatus.value
             Scaffold(
                 modifier = Modifier.fillMaxSize(),
-                contentColor = MaterialTheme.colorScheme.background,
+                contentColor = VeryLightCyan,
                 topBar = {
                     ArtworkDetailTopBar(uiArtwork)
                 },
@@ -195,8 +198,8 @@ class ArtworkDetailFragment : Fragment() {
     ) {
         TopAppBar(
             colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                titleContentColor = MaterialTheme.colorScheme.primary,
+                containerColor = PaleCyan,
+                titleContentColor = DeepTeal,
             ),
             title = {
                 Text(

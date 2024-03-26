@@ -14,12 +14,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,7 +27,6 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -46,6 +45,9 @@ import com.tolodev.artic_gallery.ui.components.style.caption2
 import com.tolodev.artic_gallery.ui.models.UIArtwork
 import com.tolodev.artic_gallery.ui.models.UIStatus
 import com.tolodev.artic_gallery.ui.theme.ArticGalleryTheme
+import com.tolodev.artic_gallery.ui.theme.DeepTeal
+import com.tolodev.artic_gallery.ui.theme.PaleCyan
+import com.tolodev.artic_gallery.ui.theme.VeryLightCyan
 import com.tolodev.artic_gallery.ui.viewModels.HomeViewModel
 import com.tolodev.artic_gallery.utils.startDestination
 import dagger.hilt.android.AndroidEntryPoint
@@ -96,7 +98,7 @@ class HomeFragment : Fragment() {
     @Composable
     fun HomeComponent(uiStatus: UIStatus<List<UIArtwork>>) {
         Scaffold(modifier = Modifier.fillMaxSize(),
-            contentColor = MaterialTheme.colorScheme.background,
+            contentColor = VeryLightCyan,
             content = {
                 when (uiStatus) {
                     is UIStatus.Loading -> ArticGalleryLoader()
@@ -114,13 +116,14 @@ class HomeFragment : Fragment() {
 
     @Composable
     fun ArticGalleryHomeContent(paddingValues: PaddingValues, artworks: List<UIArtwork>) {
-        LazyVerticalGrid(
-            verticalArrangement = Arrangement.spacedBy(10.dp),
+        LazyVerticalStaggeredGrid(
+            verticalItemSpacing = 4.dp,
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
-                .padding(16.dp),
-            columns = GridCells.Fixed(2),
+                .padding(top = 32.dp, bottom = 16.dp, start = 16.dp, end = 16.dp),
+            columns = StaggeredGridCells.Fixed(2),
             contentPadding = paddingValues
         ) {
             items(artworks) { artwork ->
@@ -142,11 +145,15 @@ class HomeFragment : Fragment() {
                     Timber.e("Selected: " + uiArtwork.title)
                     showArtworkDetail(uiArtwork.id)
                 },
+            colors = CardDefaults.cardColors(
+                containerColor = PaleCyan,
+                contentColor = DeepTeal
+            )
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color.White),
+                    .background(PaleCyan),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -161,7 +168,11 @@ class HomeFragment : Fragment() {
                 Text(
                     modifier = Modifier.padding(top = 4.dp, bottom = 16.dp),
                     text = uiArtwork.title,
-                    style = caption2.copy(fontWeight = FontWeight.SemiBold),
+                    maxLines = 2,
+                    style = caption2.copy(
+                        fontWeight = FontWeight.SemiBold,
+                        color = DeepTeal
+                    ),
                     textAlign = TextAlign.Center
                 )
             }

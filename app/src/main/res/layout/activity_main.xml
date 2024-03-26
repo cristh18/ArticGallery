@@ -21,10 +21,11 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bnv_artic_gallery"
+        style="@style/BottomNavigationViewStyle"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_gravity="start"
-        android:background="@color/teal_200"
+        android:background="@color/pale_cyan"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

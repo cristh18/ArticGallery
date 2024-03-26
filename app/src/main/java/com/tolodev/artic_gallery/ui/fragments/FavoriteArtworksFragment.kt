@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,21 +15,22 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
@@ -41,9 +43,12 @@ import com.tolodev.artic_gallery.ui.ArtworkFlow
 import com.tolodev.artic_gallery.ui.activities.MainActivity
 import com.tolodev.artic_gallery.ui.components.ArticGalleryLoader
 import com.tolodev.artic_gallery.ui.components.DisplayImageWithCustomLoadingIndicator
+import com.tolodev.artic_gallery.ui.components.style.headLine1
 import com.tolodev.artic_gallery.ui.models.UIArtwork
 import com.tolodev.artic_gallery.ui.models.UIStatus
 import com.tolodev.artic_gallery.ui.theme.ArticGalleryTheme
+import com.tolodev.artic_gallery.ui.theme.DeepTeal
+import com.tolodev.artic_gallery.ui.theme.VeryLightCyan
 import com.tolodev.artic_gallery.ui.viewModels.FavoriteArtworksViewModel
 import com.tolodev.artic_gallery.utils.startDestination
 import dagger.hilt.android.AndroidEntryPoint
@@ -100,15 +105,18 @@ class FavoriteArtworksFragment : Fragment() {
     fun FavoriteArtworksComponent(uiStatus: UIStatus<List<UIArtwork>>) {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
-            contentColor = MaterialTheme.colorScheme.background
+            contentColor = VeryLightCyan
         ) {
             when (uiStatus) {
                 is UIStatus.Loading -> ArticGalleryLoader()
                 is UIStatus.Successful -> {
                     val artworks: List<UIArtwork> = uiStatus.value
-                    LazyColumn {
+                    LazyColumn(
+                        modifier = Modifier.background(VeryLightCyan),
+                    ) {
                         items(artworks.size) { index ->
                             FavoriteArtworkListItem(artworks[index])
+                            HorizontalDivider(color = DeepTeal, thickness = 1.dp)
                         }
                     }
                 }
@@ -127,30 +135,30 @@ class FavoriteArtworksFragment : Fragment() {
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight()
-                .padding(8.dp)
+                .padding(top = 32.dp, bottom = 16.dp, start = 32.dp, end = 32.dp)
+                .background(VeryLightCyan)
                 .clickable {
                     Timber.e("Selected: " + uiArtwork.title)
                     showArtworkDetail(uiArtwork.id)
                 }
         ) {
-            // Lunes
-            // Martes
-            // Viernes
             Text(
                 modifier = Modifier
                     .weight(0.67f)
                     .fillMaxHeight()
                     .align(Alignment.CenterVertically),
                 text = uiArtwork.title,
-                style = MaterialTheme.typography.titleMedium,
-                color = Color.Black,
-                textAlign = TextAlign.Center
+                style = headLine1.copy(
+                    fontWeight = FontWeight.Bold,
+                    color = DeepTeal
+                )
             )
             Column {
                 DisplayImageWithCustomLoadingIndicator(
                     modifier = Modifier
                         .size(150.dp)
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(16.dp)),
                     url = uiArtwork.images[ImageSize.TINY]?.imageUrl.orEmpty(),
                     contentDescription = uiArtwork.thumbnailAltText
                 )
@@ -158,14 +166,16 @@ class FavoriteArtworksFragment : Fragment() {
                     IconButton(onClick = { /*TODO*/ }) {
                         Icon(
                             imageVector = Icons.Filled.Share,
-                            contentDescription = stringResource(id = R.string.copy_share)
+                            contentDescription = stringResource(id = R.string.copy_share),
+                            tint = DeepTeal
                         )
                     }
 
                     IconButton(onClick = { /*TODO*/ }) {
                         Icon(
                             imageVector = Icons.Filled.Delete,
-                            contentDescription = stringResource(id = R.string.copy_delete)
+                            contentDescription = stringResource(id = R.string.copy_delete),
+                            tint = DeepTeal
                         )
                     }
                 }
