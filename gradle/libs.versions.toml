@@ -26,6 +26,7 @@ legacySupportV4Version = "1.0.0"
 kspVersion = "1.9.0-1.0.13"
 roomVersion = "2.6.1"
 workerVersion = "2.9.0"
+swipeRefreshVersion = "0.24.13-rc"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -63,6 +64,7 @@ room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomVersion" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomVersion" }
 worker = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "workerVersion" }
+swipeRefresh = { group = "com.google.accompanist", name = "accompanist-swiperefresh", version.ref = "swipeRefreshVersion" }
 
 [bundles]
 navigation-ui = ["navigation-fragment-ktx", "navigation-ui-ktx", "legacy-support-v4"]

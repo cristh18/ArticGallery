@@ -102,6 +102,8 @@ dependencies {
     // WorkManager
     implementation(libs.worker)
 
+    implementation(libs.swipeRefresh)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

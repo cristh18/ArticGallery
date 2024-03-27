@@ -23,7 +23,11 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,6 +37,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.tolodev.artic_gallery.domain.models.DataProviderMock
 import com.tolodev.artic_gallery.domain.models.ImageSize
 import com.tolodev.artic_gallery.extensions.composeView
@@ -100,15 +106,27 @@ class HomeFragment : Fragment() {
         Scaffold(modifier = Modifier.fillMaxSize(),
             contentColor = VeryLightCyan,
             content = {
-                when (uiStatus) {
-                    is UIStatus.Loading -> ArticGalleryLoader()
-                    is UIStatus.Successful -> ArticGalleryHomeContent(
-                        paddingValues = it, artworks = uiStatus.value
-                    )
 
-                    is UIStatus.Error -> {
-                        Timber.e("Error: ${uiStatus.msg}")
-                        ArticGalleryError(uiStatus.msg)
+                var isRefreshing by remember { mutableStateOf(false) }
+
+                SwipeRefresh(
+                    state = rememberSwipeRefreshState(isRefreshing),
+                    onRefresh = {
+                        isRefreshing = true
+                        viewModel.initViewModel()
+                    },
+                ) {
+                    isRefreshing = false
+                    when (uiStatus) {
+                        is UIStatus.Loading -> ArticGalleryLoader()
+                        is UIStatus.Successful -> ArticGalleryHomeContent(
+                            paddingValues = it, artworks = uiStatus.value
+                        )
+
+                        is UIStatus.Error -> {
+                            Timber.e("Error: ${uiStatus.msg}")
+                            ArticGalleryError(uiStatus.msg)
+                        }
                     }
                 }
             })

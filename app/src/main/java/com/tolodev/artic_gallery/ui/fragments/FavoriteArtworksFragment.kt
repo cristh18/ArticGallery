@@ -25,7 +25,11 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,12 +40,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.tolodev.artic_gallery.R
 import com.tolodev.artic_gallery.domain.models.DataProviderMock
 import com.tolodev.artic_gallery.domain.models.ImageSize
 import com.tolodev.artic_gallery.extensions.composeView
 import com.tolodev.artic_gallery.ui.ArtworkFlow
 import com.tolodev.artic_gallery.ui.activities.MainActivity
+import com.tolodev.artic_gallery.ui.components.ArticGalleryError
 import com.tolodev.artic_gallery.ui.components.ArticGalleryLoader
 import com.tolodev.artic_gallery.ui.components.DisplayImageWithCustomLoadingIndicator
 import com.tolodev.artic_gallery.ui.components.style.headLine1
@@ -108,23 +115,35 @@ class FavoriteArtworksFragment : Fragment() {
             modifier = Modifier.fillMaxSize(),
             contentColor = VeryLightCyan
         ) {
-            when (uiStatus) {
-                is UIStatus.Loading -> ArticGalleryLoader()
-                is UIStatus.Successful -> {
-                    val artworks: List<UIArtwork> = uiStatus.value
-                    LazyColumn(
-                        modifier = Modifier.background(VeryLightCyan),
-                    ) {
-                        items(artworks.size) { index ->
-                            FavoriteArtworkListItem(artworks[index])
-                            HorizontalDivider(color = DeepTeal, thickness = 1.dp)
+
+            var isRefreshing by remember { mutableStateOf(false) }
+
+            SwipeRefresh(
+                state = rememberSwipeRefreshState(isRefreshing),
+                onRefresh = {
+                    isRefreshing = true
+                    viewModel.initViewModel()
+                },
+            ) {
+                isRefreshing = false
+                when (uiStatus) {
+                    is UIStatus.Loading -> ArticGalleryLoader()
+                    is UIStatus.Successful -> {
+                        val artworks: List<UIArtwork> = uiStatus.value
+                        LazyColumn(
+                            modifier = Modifier.background(VeryLightCyan),
+                        ) {
+                            items(artworks.size) { index ->
+                                FavoriteArtworkListItem(artworks[index])
+                                HorizontalDivider(color = DeepTeal, thickness = 1.dp)
+                            }
                         }
                     }
-                }
 
-                is UIStatus.Error -> {
-                    Timber.e("Error: ${uiStatus.msg}")
-                    Text(text = uiStatus.msg)
+                    is UIStatus.Error -> {
+                        Timber.e("Error: ${uiStatus.msg}")
+                        ArticGalleryError(uiStatus.msg)
+                    }
                 }
             }
         }

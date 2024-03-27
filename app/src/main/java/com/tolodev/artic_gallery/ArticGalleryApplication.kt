@@ -17,7 +17,6 @@ class ArticGalleryApplication : Application() {
     @Inject
     lateinit var articGalleryNotificationReceiver: NotificationReceiver
 
-
     override fun onCreate() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
@@ -27,7 +26,7 @@ class ArticGalleryApplication : Application() {
             NotificationReceiver.CHANNEL_NAME
         )
 
-        val workRequest = PeriodicWorkRequestBuilder<NotificationWorker>(2, TimeUnit.MINUTES)
+        val workRequest = PeriodicWorkRequestBuilder<NotificationWorker>(15, TimeUnit.MINUTES)
             .build()
 
         WorkManager.getInstance(this).enqueue(workRequest)
