@@ -4,6 +4,8 @@ Artic Gallery is an application designed to showcase artwork pictures sourced fr
 
 Furthermore, users have the ability to save favorite artworks, which remain accessible even after the application is closed and reopened through the 'Favorites' section. Additionally, the app sends push notifications every 15 minutes to prompt users to explore new artworks and engage with the application.
 
+![ArticGallery](https://github.com/cristh18/ArticGallery/assets/1972427/0c21b098-1618-4b76-b91b-a6cea0c0c0f1)
+
 [![Demo](https://img.youtube.com/vi/tAwNaFv7AIc/maxresdefault.jpg)](https://youtu.be/tAwNaFv7AIc)
 
 ## Architecture
