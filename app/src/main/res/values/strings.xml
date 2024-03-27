@@ -17,4 +17,6 @@
     <string name="copy_categories">Categories: </string>
     <string name="copy_style">Style: </string>
     <string name="copy_technique">Technique(s): </string>
+    <string name="copy_push_notification_title">Open the Artwork Gallery app now!</string>
+    <string name="copy_push_notification_message">Discover the latest and most stunning artworks</string>
 </resources>

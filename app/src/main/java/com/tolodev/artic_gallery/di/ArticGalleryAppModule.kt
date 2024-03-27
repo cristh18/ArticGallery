@@ -11,6 +11,7 @@ import com.tolodev.artic_gallery.data.datasource.remote.IRemoteDatasource
 import com.tolodev.artic_gallery.data.datasource.remote.RemoteDatasource
 import com.tolodev.artic_gallery.data.datasource.remote.api.ArticGalleryApi
 import com.tolodev.artic_gallery.managers.ArticGalleryManager
+import com.tolodev.artic_gallery.receivers.NotificationReceiver
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -118,6 +119,12 @@ object ArticGalleryAppModule {
     fun articGalleryManager(): ArticGalleryManager {
         ArticGalleryManager.init()
         return ArticGalleryManager.instance
+    }
+
+    @Provides
+    @Singleton
+    fun articGalleryNotificationReceiver(): NotificationReceiver {
+        return NotificationReceiver()
     }
 
     private fun getRetrofitBuilder(
