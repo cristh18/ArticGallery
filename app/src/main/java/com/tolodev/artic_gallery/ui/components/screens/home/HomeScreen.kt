@@ -14,7 +14,6 @@ import com.tolodev.artic_gallery.ui.components.general.ArticGalleryError
 import com.tolodev.artic_gallery.ui.components.general.ArticGalleryLoader
 import com.tolodev.artic_gallery.ui.models.UIArtwork
 import com.tolodev.artic_gallery.ui.models.UIStatus
-import com.tolodev.artic_gallery.ui.theme.ArticGalleryTheme
 import timber.log.Timber
 
 @Composable
@@ -23,7 +22,7 @@ fun HomeScreen(
     primaryAction: () -> Unit,
     secondaryAction: (Long) -> Unit
 ) {
-    ArticGalleryApp {
+    ArticGalleryApp(content = {
         var isRefreshing by remember { mutableStateOf(false) }
 
         SwipeRefresh(
@@ -36,7 +35,7 @@ fun HomeScreen(
             isRefreshing = false
             when (uiStatus) {
                 is UIStatus.Loading -> ArticGalleryLoader()
-                is UIStatus.Successful -> ArticGalleryHomeContent(
+                is UIStatus.Successful -> HomeArtworkList(
                     paddingValues = it,
                     artworks = uiStatus.value,
                     showArtworkDetail = { secondaryAction(it) }
@@ -48,14 +47,11 @@ fun HomeScreen(
                 }
             }
         }
-    }
+    })
 }
 
 @Preview(showBackground = true)
 @Composable
-fun HomeComponentPreview() {
-    ArticGalleryTheme {
-        ArticGalleryLoader()
-        HomeScreen(UIStatus.Successful(value = DataProviderMock.getMockedUIArtworks), {}, {})
-    }
+private fun HomeScreenPreview() {
+    HomeScreen(UIStatus.Successful(value = DataProviderMock.getMockedUIArtworks), {}, {})
 }

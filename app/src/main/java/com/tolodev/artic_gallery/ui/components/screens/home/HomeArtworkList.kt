@@ -10,27 +10,33 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.dimensionResource
+import com.tolodev.artic_gallery.R
 import com.tolodev.artic_gallery.ui.models.UIArtwork
 
 @Composable
-fun ArticGalleryHomeContent(
+fun HomeArtworkList(
     paddingValues: PaddingValues,
     artworks: List<UIArtwork>,
     showArtworkDetail: (Long) -> Unit
 ) {
     LazyVerticalStaggeredGrid(
-        verticalItemSpacing = 4.dp,
-        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        verticalItemSpacing = dimensionResource(id = R.dimen.spacing_xxsmall),
+        horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.spacing_xxsmall)),
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .padding(top = 32.dp, bottom = 16.dp, start = 16.dp, end = 16.dp),
+            .padding(
+                top = dimensionResource(id = R.dimen.spacing_huge),
+                bottom = dimensionResource(id = R.dimen.spacing_large),
+                start = dimensionResource(id = R.dimen.spacing_large),
+                end = dimensionResource(id = R.dimen.spacing_large)
+            ),
         columns = StaggeredGridCells.Fixed(2),
         contentPadding = paddingValues
     ) {
         items(artworks) { artwork ->
-            ArtworkListItem(uiArtwork = artwork, showArtworkDetail = { showArtworkDetail(it) })
+            HomeArtworkListItem(uiArtwork = artwork, showArtworkDetail = { showArtworkDetail(it) })
         }
     }
 }

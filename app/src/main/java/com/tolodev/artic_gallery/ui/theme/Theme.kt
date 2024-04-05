@@ -54,9 +54,10 @@ fun ArticGalleryTheme(
         else -> LightColorScheme
     }
     val view = LocalView.current
-    if (!view.isInEditMode) {
+    val context = LocalContext.current
+    if (!view.isInEditMode && context is Activity) {
         SideEffect {
-            val window = (view.context as Activity).window
+            val window = context.window
             window.statusBarColor = colorScheme.primary.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
         }
