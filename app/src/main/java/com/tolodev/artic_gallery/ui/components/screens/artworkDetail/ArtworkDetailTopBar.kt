@@ -12,10 +12,10 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.tolodev.artic_gallery.R
 import com.tolodev.artic_gallery.ui.components.style.body
@@ -27,8 +27,8 @@ import com.tolodev.artic_gallery.ui.theme.PaleCyan
 @OptIn(ExperimentalMaterial3Api::class)
 fun ArtworkDetailTopBar(
     uiArtwork: UIArtwork,
-    showHome: () -> Unit,
-    saveFavoriteArtwork: (Long) -> Unit
+    showHome: () -> Unit = {},
+    saveFavoriteArtwork: (Long) -> Unit = {}
 ) {
     TopAppBar(colors = TopAppBarDefaults.topAppBarColors(
         containerColor = PaleCyan,
@@ -50,7 +50,7 @@ fun ArtworkDetailTopBar(
         val isFavorite = uiArtwork.isFavorite
         AsyncImage(
             modifier = Modifier
-                .size(24.dp)
+                .size(dimensionResource(id = R.dimen.spacing_xxlarge))
                 .clickable { saveFavoriteArtwork(uiArtwork.id) },
             model = if (isFavorite) R.drawable.ic_favorite_filled else R.drawable.ic_favorite_border,
             contentDescription = stringResource(id = R.string.copy_save)

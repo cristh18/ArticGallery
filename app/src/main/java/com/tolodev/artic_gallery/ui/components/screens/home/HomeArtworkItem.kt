@@ -18,7 +18,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import com.tolodev.artic_gallery.R
+import com.tolodev.artic_gallery.domain.models.DataProviderMock
 import com.tolodev.artic_gallery.domain.models.ImageSize
 import com.tolodev.artic_gallery.ui.components.general.DisplayImageWithCustomLoadingIndicator
 import com.tolodev.artic_gallery.ui.components.style.caption2
@@ -28,7 +30,7 @@ import com.tolodev.artic_gallery.ui.theme.PaleCyan
 import timber.log.Timber
 
 @Composable
-fun HomeArtworkListItem(uiArtwork: UIArtwork, showArtworkDetail: (Long) -> Unit) {
+fun HomeArtworkItem(uiArtwork: UIArtwork, showArtworkDetail: (Long) -> Unit) {
     Timber.d(
         "ArtworkListItem", "Title: ${uiArtwork.title}, Description: ${uiArtwork.description}"
     )
@@ -63,7 +65,9 @@ fun HomeArtworkListItem(uiArtwork: UIArtwork, showArtworkDetail: (Long) -> Unit)
             Text(
                 modifier = Modifier.padding(
                     top = dimensionResource(id = R.dimen.spacing_xxsmall),
-                    bottom = dimensionResource(id = R.dimen.spacing_huge)
+                    bottom = dimensionResource(id = R.dimen.spacing_standard),
+                    start = dimensionResource(id = R.dimen.spacing_standard),
+                    end = dimensionResource(id = R.dimen.spacing_standard)
                 ),
                 text = uiArtwork.title,
                 maxLines = 2,
@@ -75,4 +79,10 @@ fun HomeArtworkListItem(uiArtwork: UIArtwork, showArtworkDetail: (Long) -> Unit)
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun HomeArtworkItemPreview() {
+    HomeArtworkItem(uiArtwork = DataProviderMock.getMockedUIArtworks[0], showArtworkDetail = {})
 }

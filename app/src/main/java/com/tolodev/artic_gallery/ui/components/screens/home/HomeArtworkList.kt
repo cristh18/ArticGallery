@@ -36,7 +36,7 @@ fun HomeArtworkList(
         contentPadding = paddingValues
     ) {
         items(artworks) { artwork ->
-            HomeArtworkListItem(uiArtwork = artwork, showArtworkDetail = { showArtworkDetail(it) })
+            HomeArtworkItem(uiArtwork = artwork, showArtworkDetail = { showArtworkDetail(it) })
         }
     }
 }

@@ -10,7 +10,7 @@ import com.tolodev.artic_gallery.ui.theme.VeryLightCyan
 
 @Composable
 fun ArticGalleryApp(
-    topBar: @Composable (() -> Unit)? = null,
+    topBar: @Composable () -> Unit = { },
     content: @Composable (PaddingValues) -> Unit
 ) {
     ArticGalleryTheme {
@@ -18,9 +18,7 @@ fun ArticGalleryApp(
             modifier = Modifier.fillMaxSize(),
             contentColor = VeryLightCyan,
             topBar = {
-                if (topBar != null) {
-                    topBar()
-                }
+                topBar()
             },
             content = {
                 content(it)

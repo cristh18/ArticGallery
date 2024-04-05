@@ -1,5 +1,6 @@
-package com.tolodev.artic_gallery.ui.components.screens.home
+package com.tolodev.artic_gallery.ui.components.screens.favoriteArtworks
 
+import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -16,8 +17,9 @@ import com.tolodev.artic_gallery.ui.models.UIArtwork
 import com.tolodev.artic_gallery.ui.models.UIStatus
 import timber.log.Timber
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun HomeScreen(
+fun FavoriteArtworksScreen(
     uiStatus: UIStatus<List<UIArtwork>>,
     primaryAction: () -> Unit = {},
     secondaryAction: (Long) -> Unit = {}
@@ -35,11 +37,10 @@ fun HomeScreen(
             isRefreshing = false
             when (uiStatus) {
                 is UIStatus.Loading -> ArticGalleryLoader()
-                is UIStatus.Successful -> HomeArtworkList(
-                    paddingValues = it,
-                    artworks = uiStatus.value,
-                    showArtworkDetail = { secondaryAction(it) }
-                )
+                is UIStatus.Successful -> {
+                    val artworks: List<UIArtwork> = uiStatus.value
+                    FavoriteArtworkList(artworks, secondaryAction)
+                }
 
                 is UIStatus.Error -> {
                     Timber.e("Error: ${uiStatus.msg}")
@@ -50,8 +51,9 @@ fun HomeScreen(
     })
 }
 
+
 @Preview(showBackground = true)
 @Composable
-private fun HomeScreenPreview() {
-    HomeScreen(UIStatus.Successful(value = DataProviderMock.getMockedUIArtworks))
+private fun FavoriteArtworksScreenPreview() {
+    FavoriteArtworksScreen(UIStatus.Successful(value = DataProviderMock.getMockedUIArtworks))
 }

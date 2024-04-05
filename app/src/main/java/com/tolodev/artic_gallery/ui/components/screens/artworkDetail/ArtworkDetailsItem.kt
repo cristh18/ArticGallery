@@ -22,12 +22,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.unit.dp
 import com.tolodev.artic_gallery.R
 import com.tolodev.artic_gallery.ui.components.style.body
 import com.tolodev.artic_gallery.ui.components.style.caption2
@@ -42,23 +42,26 @@ fun ArtworkDetailsItem(uiArtwork: UIArtwork) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 32.dp)
+                .padding(top = dimensionResource(id = R.dimen.spacing_huge))
                 .background(Color.LightGray.copy(alpha = 0.2f)),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Spacer(modifier = Modifier.width(32.dp))
+            Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.spacing_huge)))
             Icon(
                 modifier = Modifier
-                    .size(24.dp)
+                    .size(dimensionResource(id = R.dimen.spacing_xxlarge))
                     .clickable { expanded = !expanded },
                 imageVector = Icons.Filled.Add,
                 contentDescription = stringResource(id = R.string.copy_artwork_details),
                 tint = DeepTeal
             )
-            Spacer(modifier = Modifier.width(8.dp))
+            Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.spacing_standard)))
             Text(
                 modifier = Modifier
-                    .padding(top = 16.dp, bottom = 16.dp)
+                    .padding(
+                        top = dimensionResource(id = R.dimen.spacing_large),
+                        bottom = dimensionResource(id = R.dimen.spacing_large)
+                    )
                     .clickable { expanded = !expanded },
                 text = stringResource(id = R.string.copy_artwork_details),
                 style = body.copy(
@@ -84,7 +87,9 @@ fun ArtworkDetailsItem(uiArtwork: UIArtwork) {
 
                 Text(
                     modifier = Modifier.padding(
-                        top = 8.dp, start = 48.dp, end = 16.dp
+                        top = dimensionResource(id = R.dimen.spacing_standard),
+                        start = dimensionResource(id = R.dimen.spacing_xxhuge),
+                        end = dimensionResource(id = R.dimen.spacing_large)
                     ),
                     text = customizedText,
                     style = caption2.copy(color = DeepTeal),

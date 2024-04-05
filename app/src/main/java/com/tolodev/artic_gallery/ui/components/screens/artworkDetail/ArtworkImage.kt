@@ -8,7 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.dimensionResource
+import com.tolodev.artic_gallery.R
 import com.tolodev.artic_gallery.domain.models.ImageSize
 import com.tolodev.artic_gallery.ui.components.general.DisplayImageWithCustomLoadingIndicator
 import com.tolodev.artic_gallery.ui.models.UIArtwork
@@ -17,9 +18,9 @@ import com.tolodev.artic_gallery.ui.models.UIArtwork
 fun ArtworkImage(uiArtwork: UIArtwork) {
     Box(modifier = Modifier.fillMaxWidth()) {
         val modifier: Modifier = Modifier
-            .size(350.dp)
+            .size(dimensionResource(id = R.dimen.max_height_list_notify_orders))
             .align(Alignment.Center)
-            .clip(RoundedCornerShape(16.dp))
+            .clip(RoundedCornerShape(dimensionResource(id = R.dimen.spacing_large)))
         DisplayImageWithCustomLoadingIndicator(
             modifier = modifier,
             url = uiArtwork.images[ImageSize.BIG]?.imageUrl.orEmpty(),
