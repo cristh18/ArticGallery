@@ -43,7 +43,7 @@ fun HomeScreen(
 
                 is UIStatus.Error -> {
                     Timber.e("Error: ${uiStatus.msg}")
-                    ArticGalleryError(uiStatus.msg)
+                    ArticGalleryError(uiStatus.msg, refreshAction = { primaryAction() })
                 }
             }
         }

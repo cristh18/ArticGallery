@@ -18,7 +18,7 @@ import com.tolodev.artic_gallery.ui.models.UIArtwork
 fun HomeArtworkList(
     paddingValues: PaddingValues,
     artworks: List<UIArtwork>,
-    showArtworkDetail: (Long) -> Unit
+    showArtworkDetail: (Long) -> Unit = {}
 ) {
     LazyVerticalStaggeredGrid(
         verticalItemSpacing = dimensionResource(id = R.dimen.spacing_xxsmall),

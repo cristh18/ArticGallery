@@ -11,13 +11,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,7 +27,9 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import com.tolodev.artic_gallery.R
+import com.tolodev.artic_gallery.domain.models.DataProviderMock
 import com.tolodev.artic_gallery.ui.components.style.body
 import com.tolodev.artic_gallery.ui.components.style.caption2
 import com.tolodev.artic_gallery.ui.models.UIArtwork
@@ -36,7 +37,7 @@ import com.tolodev.artic_gallery.ui.theme.DeepTeal
 
 @Composable
 fun ArtworkDetailsItem(uiArtwork: UIArtwork) {
-    var expanded by remember { mutableStateOf(false) }
+    val expanded = rememberSaveable { mutableStateOf(false) }
 
     Column(modifier = Modifier.fillMaxWidth()) {
         Row(
@@ -50,8 +51,8 @@ fun ArtworkDetailsItem(uiArtwork: UIArtwork) {
             Icon(
                 modifier = Modifier
                     .size(dimensionResource(id = R.dimen.spacing_xxlarge))
-                    .clickable { expanded = !expanded },
-                imageVector = Icons.Filled.Add,
+                    .clickable { expanded.value = !expanded.value },
+                imageVector = if (expanded.value) Icons.Filled.KeyboardArrowUp else Icons.Filled.Add,
                 contentDescription = stringResource(id = R.string.copy_artwork_details),
                 tint = DeepTeal
             )
@@ -62,7 +63,7 @@ fun ArtworkDetailsItem(uiArtwork: UIArtwork) {
                         top = dimensionResource(id = R.dimen.spacing_large),
                         bottom = dimensionResource(id = R.dimen.spacing_large)
                     )
-                    .clickable { expanded = !expanded },
+                    .clickable { expanded.value = !expanded.value },
                 text = stringResource(id = R.string.copy_artwork_details),
                 style = body.copy(
                     fontWeight = FontWeight.Bold, color = DeepTeal
@@ -70,7 +71,7 @@ fun ArtworkDetailsItem(uiArtwork: UIArtwork) {
             )
         }
 
-        if (expanded) {
+        if (expanded.value) {
 
             val context = LocalContext.current
             uiArtwork.getArtworkDetails(context).forEach { item ->
@@ -97,4 +98,10 @@ fun ArtworkDetailsItem(uiArtwork: UIArtwork) {
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun ArtworkDetailsItemPreview() {
+    ArtworkDetailsItem(DataProviderMock.getMockedUIArtworks[0])
 }

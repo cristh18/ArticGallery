@@ -10,23 +10,23 @@ import retrofit2.HttpException
 import java.nio.charset.Charset
 
 fun getHttpErrorMessage(throwable: Throwable): String {
-//    return if (throwable is HttpException) {
-//        val copyException = HttpException(throwable.response())
-//        val responseBody = copyException.response()?.errorBody()
-//        getBody(responseBody)?.let {
-//            val moshi = Moshi.Builder()
-//                .add(KotlinJsonAdapterFactory())
-//                .build()
-//            val jsonAdapter: JsonAdapter<ShorteningLinkResponseError> =
-//                moshi.adapter(ShorteningLinkResponseError::class.java)
-//
-//            val shorteningLinkResponseError = jsonAdapter.fromJson(it)
+    return if (throwable is HttpException) {
+        val copyException = HttpException(throwable.response())
+        val responseBody = copyException.response()?.errorBody()
+        getBody(responseBody)?.let {
+            val moshi = Moshi.Builder()
+                .add(KotlinJsonAdapterFactory())
+                .build()
+            val jsonAdapter: JsonAdapter<Any> =
+                moshi.adapter(Any::class.java)
+
+            val shorteningLinkResponseError = jsonAdapter.fromJson(it)
 //            shorteningLinkResponseError?.error ?: "Has occurred an error"
-//        } ?: "Has occurred an error"
-//    } else {
-//        "Has occurred an error"
-//    }
-    return ""
+            "Has occurred an error"
+        } ?: "Has occurred an error"
+    } else {
+        "Has occurred an error"
+    }
 }
 
 private fun getBody(response: ResponseBody?): String? {
