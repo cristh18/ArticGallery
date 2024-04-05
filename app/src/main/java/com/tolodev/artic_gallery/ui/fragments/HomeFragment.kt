@@ -4,60 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.lazy.staggeredgrid.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.google.accompanist.swiperefresh.SwipeRefresh
-import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import com.tolodev.artic_gallery.domain.models.DataProviderMock
-import com.tolodev.artic_gallery.domain.models.ImageSize
 import com.tolodev.artic_gallery.extensions.composeView
 import com.tolodev.artic_gallery.ui.ArtworkFlow
 import com.tolodev.artic_gallery.ui.activities.MainActivity
-import com.tolodev.artic_gallery.ui.components.ArticGalleryError
-import com.tolodev.artic_gallery.ui.components.ArticGalleryLoader
-import com.tolodev.artic_gallery.ui.components.DisplayImageWithCustomLoadingIndicator
-import com.tolodev.artic_gallery.ui.components.style.caption2
 import com.tolodev.artic_gallery.ui.models.UIArtwork
 import com.tolodev.artic_gallery.ui.models.UIStatus
-import com.tolodev.artic_gallery.ui.theme.ArticGalleryTheme
-import com.tolodev.artic_gallery.ui.theme.DeepTeal
-import com.tolodev.artic_gallery.ui.theme.PaleCyan
-import com.tolodev.artic_gallery.ui.theme.VeryLightCyan
+import com.tolodev.artic_gallery.ui.components.screens.home.HomeScreen
 import com.tolodev.artic_gallery.ui.viewModels.HomeViewModel
 import com.tolodev.artic_gallery.utils.startDestination
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -72,7 +30,10 @@ class HomeFragment : Fragment() {
         (requireActivity() as MainActivity).showBottomNavigationView()
         return composeView {
             modelDataView.forEach { model ->
-                HomeComponent(model)
+                HomeScreen(
+                    uiStatus = model,
+                    primaryAction = { viewModel.initViewModel() },
+                    secondaryAction = { showArtworkDetail(it) })
             }
         }
     }
@@ -99,111 +60,6 @@ class HomeFragment : Fragment() {
                 artwordId, ArtworkFlow.RECENT.name
             ), this
         )
-    }
-
-    @Composable
-    fun HomeComponent(uiStatus: UIStatus<List<UIArtwork>>) {
-        Scaffold(modifier = Modifier.fillMaxSize(),
-            contentColor = VeryLightCyan,
-            content = {
-
-                var isRefreshing by remember { mutableStateOf(false) }
-
-                SwipeRefresh(
-                    state = rememberSwipeRefreshState(isRefreshing),
-                    onRefresh = {
-                        isRefreshing = true
-                        viewModel.initViewModel()
-                    },
-                ) {
-                    isRefreshing = false
-                    when (uiStatus) {
-                        is UIStatus.Loading -> ArticGalleryLoader()
-                        is UIStatus.Successful -> ArticGalleryHomeContent(
-                            paddingValues = it, artworks = uiStatus.value
-                        )
-
-                        is UIStatus.Error -> {
-                            Timber.e("Error: ${uiStatus.msg}")
-                            ArticGalleryError(uiStatus.msg)
-                        }
-                    }
-                }
-            })
-    }
-
-    @Composable
-    fun ArticGalleryHomeContent(paddingValues: PaddingValues, artworks: List<UIArtwork>) {
-        LazyVerticalStaggeredGrid(
-            verticalItemSpacing = 4.dp,
-            horizontalArrangement = Arrangement.spacedBy(4.dp),
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .padding(top = 32.dp, bottom = 16.dp, start = 16.dp, end = 16.dp),
-            columns = StaggeredGridCells.Fixed(2),
-            contentPadding = paddingValues
-        ) {
-            items(artworks) { artwork ->
-                ArtworkListItem(artwork)
-            }
-        }
-    }
-
-    @Composable
-    fun ArtworkListItem(uiArtwork: UIArtwork) {
-        Timber.d(
-            "ArtworkListItem", "Title: ${uiArtwork.title}, Description: ${uiArtwork.description}"
-        )
-        Card(
-            modifier = Modifier
-                .padding(4.dp)
-                .fillMaxWidth()
-                .clickable {
-                    Timber.e("Selected: " + uiArtwork.title)
-                    showArtworkDetail(uiArtwork.id)
-                },
-            colors = CardDefaults.cardColors(
-                containerColor = PaleCyan,
-                contentColor = DeepTeal
-            )
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(PaleCyan),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                DisplayImageWithCustomLoadingIndicator(
-                    modifier = Modifier
-                        .size(200.dp)
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(16.dp)),
-                    url = uiArtwork.images[ImageSize.TINY]?.imageUrl.orEmpty(),
-                    contentDescription = uiArtwork.thumbnailAltText
-                )
-                Text(
-                    modifier = Modifier.padding(top = 4.dp, bottom = 16.dp),
-                    text = uiArtwork.title,
-                    maxLines = 2,
-                    style = caption2.copy(
-                        fontWeight = FontWeight.SemiBold,
-                        color = DeepTeal
-                    ),
-                    textAlign = TextAlign.Center
-                )
-            }
-        }
-    }
-
-    @Preview(showBackground = true)
-    @Composable
-    fun HomeComponentPreview() {
-        ArticGalleryTheme {
-            ArticGalleryLoader()
-            HomeComponent(UIStatus.Successful(value = DataProviderMock.getMockedUIArtworks))
-        }
     }
 }
 

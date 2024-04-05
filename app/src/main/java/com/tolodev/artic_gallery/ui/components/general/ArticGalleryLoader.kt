@@ -1,4 +1,4 @@
-package com.tolodev.artic_gallery.ui.components
+package com.tolodev.artic_gallery.ui.components.general
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

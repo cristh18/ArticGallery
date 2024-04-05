@@ -54,7 +54,7 @@ import com.tolodev.artic_gallery.R
 import com.tolodev.artic_gallery.domain.models.DataProviderMock
 import com.tolodev.artic_gallery.domain.models.ImageSize
 import com.tolodev.artic_gallery.extensions.composeView
-import com.tolodev.artic_gallery.ui.components.DisplayImageWithCustomLoadingIndicator
+import com.tolodev.artic_gallery.ui.components.general.DisplayImageWithCustomLoadingIndicator
 import com.tolodev.artic_gallery.ui.components.style.body
 import com.tolodev.artic_gallery.ui.components.style.caption2
 import com.tolodev.artic_gallery.ui.models.UIArtwork

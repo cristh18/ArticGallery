@@ -48,9 +48,9 @@ import com.tolodev.artic_gallery.domain.models.ImageSize
 import com.tolodev.artic_gallery.extensions.composeView
 import com.tolodev.artic_gallery.ui.ArtworkFlow
 import com.tolodev.artic_gallery.ui.activities.MainActivity
-import com.tolodev.artic_gallery.ui.components.ArticGalleryError
-import com.tolodev.artic_gallery.ui.components.ArticGalleryLoader
-import com.tolodev.artic_gallery.ui.components.DisplayImageWithCustomLoadingIndicator
+import com.tolodev.artic_gallery.ui.components.general.ArticGalleryError
+import com.tolodev.artic_gallery.ui.components.general.ArticGalleryLoader
+import com.tolodev.artic_gallery.ui.components.general.DisplayImageWithCustomLoadingIndicator
 import com.tolodev.artic_gallery.ui.components.style.headLine1
 import com.tolodev.artic_gallery.ui.models.UIArtwork
 import com.tolodev.artic_gallery.ui.models.UIStatus
