@@ -40,6 +40,7 @@ The project is developed using Kotlin and adheres to the MVVM (Model-View-ViewMo
 
 ### Prerequisites
 
+- Java 17
 - Kotlin SDK
 - Android SDK
 
