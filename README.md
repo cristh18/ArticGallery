@@ -65,4 +65,3 @@ See also the list of [contributors](https://github.com/yourusername/AstronomyGal
 ## License
 
 This project is licensed under the MIT License - see the `LICENSE.md` file for details
-
