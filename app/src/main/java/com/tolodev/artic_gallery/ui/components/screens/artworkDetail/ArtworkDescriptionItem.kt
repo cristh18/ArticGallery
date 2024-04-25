@@ -11,13 +11,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,7 +32,7 @@ import com.tolodev.artic_gallery.ui.theme.DeepTeal
 
 @Composable
 fun ArtworkDescriptionItem(uiArtwork: UIArtwork) {
-    var expanded by remember { mutableStateOf(false) }
+    val expanded = rememberSaveable { mutableStateOf(false) }
     Column(modifier = Modifier.fillMaxWidth()) {
         Row(
             modifier = Modifier
@@ -46,8 +45,8 @@ fun ArtworkDescriptionItem(uiArtwork: UIArtwork) {
             Icon(
                 modifier = Modifier
                     .size(dimensionResource(id = R.dimen.spacing_xxlarge))
-                    .clickable { expanded = !expanded },
-                imageVector = Icons.Filled.Add,
+                    .clickable { expanded.value = !expanded.value },
+                imageVector = if (expanded.value) Icons.Filled.KeyboardArrowUp else Icons.Filled.Add,
                 contentDescription = stringResource(id = R.string.copy_description),
                 tint = DeepTeal
             )
@@ -58,7 +57,7 @@ fun ArtworkDescriptionItem(uiArtwork: UIArtwork) {
                         top = dimensionResource(id = R.dimen.spacing_large),
                         bottom = dimensionResource(id = R.dimen.spacing_large)
                     )
-                    .clickable { expanded = !expanded },
+                    .clickable { expanded.value = !expanded.value },
                 text = stringResource(id = R.string.copy_description),
                 style = body.copy(
                     fontWeight = FontWeight.Bold, color = DeepTeal
@@ -67,7 +66,7 @@ fun ArtworkDescriptionItem(uiArtwork: UIArtwork) {
             )
         }
 
-        if (expanded) {
+        if (expanded.value) {
             val descriptionText = uiArtwork.description.replace("<p>", "")
                 .replace("</p>", "")
             Text(

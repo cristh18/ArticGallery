@@ -39,7 +39,11 @@ import com.tolodev.artic_gallery.ui.theme.DeepTeal
 fun ArtworkDetailsItem(uiArtwork: UIArtwork) {
     val expanded = rememberSaveable { mutableStateOf(false) }
 
-    Column(modifier = Modifier.fillMaxWidth()) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = dimensionResource(id = R.dimen.spacing_xhuge))
+    ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()

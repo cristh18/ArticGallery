@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
@@ -13,7 +14,7 @@ import com.tolodev.artic_gallery.R
 import com.tolodev.artic_gallery.ui.models.UIArtwork
 
 @Composable
-fun ArworkDetailContent(uiArtwork: UIArtwork) {
+fun ArtworkDetailPortraitContent(uiArtwork: UIArtwork) {
     LazyColumn(
         modifier = Modifier
             .fillMaxWidth()
@@ -22,16 +23,20 @@ fun ArworkDetailContent(uiArtwork: UIArtwork) {
             .background(Color.White),
     ) {
         item {
-            ArtworkImage(uiArtwork)
-        }
-
-        item {
-            ArtworkDetailsItem(uiArtwork)
+            ArtworkImage(
+                uiArtwork = uiArtwork,
+                modifier = Modifier.fillMaxWidth(),
+                size = dimensionResource(id = R.dimen.max_height_list_notify_orders),
+                alignment = Alignment.Center
+            )
         }
         if (uiArtwork.description.isNotEmpty()) {
             item {
                 ArtworkDescriptionItem(uiArtwork)
             }
+        }
+        item {
+            ArtworkDetailsItem(uiArtwork)
         }
     }
 }
