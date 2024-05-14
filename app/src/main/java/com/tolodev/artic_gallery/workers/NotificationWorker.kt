@@ -10,7 +10,6 @@ class NotificationWorker(private val appContext: Context, workerParams: WorkerPa
     Worker(appContext, workerParams) {
 
     override fun doWork(): Result {
-        // Show the notification here.
         val intent = Intent(appContext, NotificationReceiver::class.java)
         appContext.sendBroadcast(intent)
 

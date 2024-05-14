@@ -1,6 +1,7 @@
 package com.tolodev.artic_gallery
 
 import android.app.Application
+import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.tolodev.artic_gallery.receivers.NotificationReceiver
@@ -29,6 +30,9 @@ class ArticGalleryApplication : Application() {
         val workRequest = PeriodicWorkRequestBuilder<NotificationWorker>(15, TimeUnit.MINUTES)
             .build()
 
-        WorkManager.getInstance(this).enqueue(workRequest)
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+            "NotificationWorker",
+            ExistingPeriodicWorkPolicy.KEEP,
+            workRequest)
     }
 }
