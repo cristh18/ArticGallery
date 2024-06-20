@@ -18,6 +18,8 @@ class WelcomeActivity : AppCompatActivity(R.layout.activity_welcome), OnClickLis
 
     private var buttonCompose: Button? = null
 
+    private var buttonXml: Button? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
@@ -28,11 +30,13 @@ class WelcomeActivity : AppCompatActivity(R.layout.activity_welcome), OnClickLis
     private fun initViews() {
         buttonHybrid = findViewById(R.id.button_hybrid)
         buttonCompose = findViewById(R.id.button_compose)
+        buttonCompose = findViewById(R.id.button_xml)
     }
 
     private fun initListeners() {
         buttonHybrid?.setOnClickListener(this)
         buttonCompose?.setOnClickListener(this)
+        buttonXml?.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -46,11 +50,17 @@ class WelcomeActivity : AppCompatActivity(R.layout.activity_welcome), OnClickLis
                 Timber.d("Compose button clicked")
                 Toast.makeText(this, "Compose is not implemented yet", Toast.LENGTH_SHORT).show()
             }
+
+            buttonXml?.id -> {
+                Timber.d("Xml button clicked")
+                Toast.makeText(this, "Xml is not implemented yet", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        buttonXml = null
         buttonHybrid = null
         buttonCompose = null
     }
