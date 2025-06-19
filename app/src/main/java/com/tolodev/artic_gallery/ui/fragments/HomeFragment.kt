@@ -53,11 +53,11 @@ class HomeFragment : Fragment() {
         modelDataView.addAll(listOf(uiStatus))
     }
 
-    private fun showArtworkDetail(artwordId: Long) {
+    private fun showArtworkDetail(artworkId: Long) {
         (requireActivity() as MainActivity).hideBottomNavigationView()
         startDestination(
             HomeFragmentDirections.actionHomeFragmentToArtworkDetailFragment(
-                artwordId, ArtworkFlow.RECENT.name
+                artworkId, ArtworkFlow.RECENT.name
             ), this
         )
     }

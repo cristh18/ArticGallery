@@ -56,11 +56,11 @@ class FavoriteArtworksFragment : Fragment() {
         modelDataView.addAll(listOf(uiStatus))
     }
 
-    private fun showArtworkDetail(artwordId: Long) {
+    private fun showArtworkDetail(artworkId: Long) {
         (requireActivity() as MainActivity).hideBottomNavigationView()
         startDestination(
             FavoriteArtworksFragmentDirections.actionFavoriteArtworksFragmentToArtworkDetailFragment(
-                artwordId,
+                artworkId,
                 ArtworkFlow.FAVORITES.name
             ),
             this
