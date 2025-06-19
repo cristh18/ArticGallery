@@ -10,7 +10,7 @@ Furthermore, users have the ability to save favorite artworks, which remain acce
 
 ## Architecture
 
-The project is developed using Kotlin and adheres to the MVVM (Model-View-ViewModel) architectural pattern. It incorporates Hilt for dependency injection, Retrofit for handling network requests, Compose for constructing views, WorkflowManager for scheduling push notifications, and Timber for logging purposes.
+The project is developed using Kotlin and adheres to the MVVM (Model-View-ViewModel) architectural pattern. It incorporates Hilt for dependency injection, Retrofit for handling network requests, Compose for constructing views, WorkManager for scheduling push notifications, and Timber for logging purposes.
 
 ![App architecture](https://developer.android.com/static/topic/libraries/architecture/images/mad-arch-overview.png)
 
@@ -60,7 +60,7 @@ Please read `CONTRIBUTING.md` for details on our code of conduct, and the proces
 
 - Cristhian Tolosa - Initial work - [cristh18](https://github.com/cristh18)
 
-See also the list of [contributors](https://github.com/yourusername/AstronomyGallery/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/cristh18/ArticGallery/contributors) who participated in this project.
 
 ## License
 
