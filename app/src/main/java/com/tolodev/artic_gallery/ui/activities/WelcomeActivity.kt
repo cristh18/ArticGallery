@@ -30,7 +30,7 @@ class WelcomeActivity : AppCompatActivity(R.layout.activity_welcome), OnClickLis
     private fun initViews() {
         buttonHybrid = findViewById(R.id.button_hybrid)
         buttonCompose = findViewById(R.id.button_compose)
-        buttonCompose = findViewById(R.id.button_xml)
+        buttonXml = findViewById(R.id.button_xml)
     }
 
     private fun initListeners() {
