@@ -10,6 +10,12 @@ plugins {
 android {
     namespace = "com.tolodev.artic_gallery"
     compileSdk = 35
+    
+    // Add Hilt compiler options
+    ksp {
+        arg("dagger.fastInit", "enabled")
+        arg("dagger.hilt.android.internal.disableAndroidSuperclassValidation", "true")
+    }
 
     defaultConfig {
         applicationId = "com.tolodev.artic_gallery"
