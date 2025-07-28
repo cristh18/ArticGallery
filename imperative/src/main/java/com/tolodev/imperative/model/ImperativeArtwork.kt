@@ -1,6 +1,6 @@
 package com.tolodev.imperative.model
 
-data class Artwork(
+data class ImperativeArtwork(
     val id: Long,
     val title: String,
     val artist: String,

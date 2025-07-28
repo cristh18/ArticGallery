@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.tolodev.imperative.adapter.ArtworkAdapter
 import com.tolodev.imperative.databinding.ActivityMainImperativeBinding
-import com.tolodev.imperative.model.Artwork
+import com.tolodev.imperative.model.ImperativeArtwork
 
 class MainImperativeActivity : AppCompatActivity() {
 
@@ -27,35 +27,34 @@ class MainImperativeActivity : AppCompatActivity() {
         artworkAdapter = ArtworkAdapter()
         binding.recyclerView.apply {
             adapter = artworkAdapter
-            layoutManager = GridLayoutManager(this@MainImperativeActivity, 2)
             setHasFixedSize(true)
         }
     }
     
     private fun loadSampleData() {
-        val sampleArtworks = listOf(
-            Artwork(
+        val sampleImperativeArtworks = listOf(
+            ImperativeArtwork(
                 id = 1,
                 title = "Starry Night",
                 artist = "Vincent van Gogh",
                 imageUrl = "https://www.moma.org/collection/works/79802",
                 date = "1889"
             ),
-            Artwork(
+            ImperativeArtwork(
                 id = 2,
                 title = "The Persistence of Memory",
                 artist = "Salvador Dalí",
                 imageUrl = "https://www.moma.org/collection/works/79018",
                 date = "1931"
             ),
-            Artwork(
+            ImperativeArtwork(
                 id = 3,
                 title = "The Scream",
                 artist = "Edvard Munch",
                 imageUrl = "https://www.moma.org/collection/works/120030",
                 date = "1893"
             ),
-            Artwork(
+            ImperativeArtwork(
                 id = 4,
                 title = "Girl with a Pearl Earring",
                 artist = "Johannes Vermeer",
@@ -64,6 +63,6 @@ class MainImperativeActivity : AppCompatActivity() {
             )
         )
         
-        artworkAdapter.submitList(sampleArtworks)
+        artworkAdapter.submitList(sampleImperativeArtworks)
     }
 }

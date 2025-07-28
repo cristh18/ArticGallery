@@ -1,3 +1,4 @@
 <resources>
     <string name="title_activity_main_imperative">MainImperativeActivity</string>
+    <string name="artwork_image" translatable="false">Artwork Image</string>
 </resources>
