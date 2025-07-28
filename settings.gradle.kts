@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "artic-gallery"
 include(":app")
+include(":imperative")

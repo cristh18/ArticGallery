@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.tolodev.artic_gallery.R
+import com.tolodev.imperative.MainImperativeActivity
 import timber.log.Timber
 
 class WelcomeActivity : AppCompatActivity(R.layout.activity_welcome), OnClickListener {
@@ -54,6 +55,7 @@ class WelcomeActivity : AppCompatActivity(R.layout.activity_welcome), OnClickLis
             buttonXml?.id -> {
                 Timber.d("Xml button clicked")
                 Toast.makeText(this, "Xml is not implemented yet", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(this, MainImperativeActivity::class.java))
             }
         }
     }

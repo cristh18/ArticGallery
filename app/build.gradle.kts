@@ -19,7 +19,7 @@ android {
 
     defaultConfig {
         applicationId = "com.tolodev.artic_gallery"
-        minSdk = 21
+        minSdk = 24
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -108,6 +108,9 @@ dependencies {
     implementation(libs.worker)
 
     implementation(libs.swipeRefresh)
+
+    // Project modules
+    implementation(project(":imperative"))
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
